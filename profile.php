@@ -28,29 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['saveProfile'])) {
   $fullname = $newFullname;
 }
 
-
-if (isset($_POST['follow'])) {
-  $followedUser = $_POST['followedUser'];
-
-  // Query untuk menambahkan hubungan follow
-  $queryFollow = "INSERT INTO FOLLOWS (FollowerUsername, FollowedUsername) VALUES (?, ?)";
-  $stmtFollow = $conn->prepare($queryFollow);
-  $stmtFollow->bind_param('ss', $username, $followedUser);
-  $stmtFollow->execute();
-
-  // Notifikasi akan ditambahkan oleh trigger di database
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['unfollow'])) {
-  $unfollowedUser = $_POST['followedUser'];
-
-  // Delete query untuk berhenti mengikuti pengguna
-  $queryUnfollow = "DELETE FROM FOLLOWS WHERE FollowerUsername = ? AND FollowedUsername = ?";
-  $stmtUnfollow = $conn->prepare($queryUnfollow);
-  $stmtUnfollow->bind_param('ss', $username, $unfollowedUser);
-  $stmtUnfollow->execute();
-}
-
 // Query untuk mendapatkan informasi pengguna
 $queryUserInfo = "SELECT * FROM Users WHERE Username = ?";
 $stmtUserInfo = $conn->prepare($queryUserInfo);
@@ -84,7 +61,7 @@ $resultFollowing = $stmtFollowing->get_result();
 $followingCount = $resultFollowing->fetch_assoc()['FollowingCount'];
 
 // Query untuk mendapatkan daftar pengikut
-$queryFollowerList = "SELECT Users.Username, Users.NAME FROM FOLLOWS JOIN Users ON FOLLOWS.FollowerUsername = Users.Username WHERE FOLLOWS.FollowedUsername = ?";
+$queryFollowerList = "SELECT Users.Username, Users.NAME, Users.PhotoProfile FROM FOLLOWS JOIN Users ON FOLLOWS.FollowerUsername = Users.Username WHERE FOLLOWS.FollowedUsername = ?";
 $stmtFollowerList = $conn->prepare($queryFollowerList);
 $stmtFollowerList->bind_param('s', $username);
 $stmtFollowerList->execute();
@@ -110,7 +87,7 @@ $resultFollowerList = $stmtFollowerList->get_result();
 <?php include("component/LeftBar.php") ?>
 <div class="app">
   <main class="my-gallery-container  d-md-block d-none">
-    <?php include("content/myProfile.php") ?>
+    <?php include("content/myProfileGallery.php") ?>
   </main>
   <?php include("component/rightBarProfile.php") ?>
 </div>

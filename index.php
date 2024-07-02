@@ -1,6 +1,8 @@
 <?php
 include "database.php";
 
+$notify = "";
+
 session_start();
 
 if (isset($_POST['login'])) {
@@ -12,7 +14,6 @@ if (isset($_POST['login'])) {
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        echo "data ditemukan";
 
         $data = $result->fetch_assoc();
         $_SESSION["username"] = $data["Username"];
@@ -21,6 +22,8 @@ if (isset($_POST['login'])) {
         $_SESSION["bio"] = $data["Bio"];
 
         header("location: dashboard.php");
+    } else {
+        $notify = "Akun tidak ditemukan";
     }
 }
 ?>
@@ -62,6 +65,7 @@ if (isset($_POST['login'])) {
                                                 <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                                             </div>
                                         </div>
+                                        <i><?= $notify ?></i>
                                         <div class="col-12 mt-30">
                                             <button type="submit" name="login" id="submit" class="btn btn-lg btn-custom btn-dark btn-block">Sign In
                                             </button>
@@ -72,14 +76,14 @@ if (isset($_POST['login'])) {
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="content text-center">
+                            <div class="content text-center m-4">
                                 <div class="border-bottom pb-5 mb-5">
-                                    <h3 class="c-black">First time here?</h3>
-                                    <a href="register.php" class="btn btn-custom">Sign up</a>
+                                    <h3 class="c-black">Baru Pertama kali?</h3>
+                                    <a href="register.php" class="btn btn-custom">Yukk gabung</a>
                                 </div>
                                 <h5 class="c-black mb-2 mt-n1">Inpogram</h5>
                                 <div class="socials">
-                                    <a>Created by <a href="https://github.com/shluf/" target="_blank">@shluf</a> </a>
+                                    <a>Created by <a href="https://github.com/shluf/" target="_blank">Salis Haidar</a> </a>
                                 </div>
                             </div>
                         </div>

@@ -12,7 +12,7 @@ if (isset($_POST['register'])) {
     $sql = "INSERT INTO Users (Username, name, Email, Password) VALUES
         ('$username', '$fullname', '$email', '$password')";
     try {
-        if ($conn->query($sql)) {
+        if ($conn -> query($sql)) {
             $notify = "Akun berhasil dibuat";
         } else {
             $notify = "Gagal membuat akun";
@@ -83,14 +83,14 @@ if (isset($_POST['register'])) {
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="content text-center">
+                            <div class="content text-center m-4">
                                 <div class="border-bottom pb-5 mb-5">
-                                    <h3 class="c-black">Already have account?</h3>
-                                    <a href="index.php" class="btn btn-custom">Sign in</a>
+                                    <h3 class="c-black">Sudah punya akun?</h3>
+                                    <a href="index.php" class="btn btn-custom">Gass masuk</a>
                                 </div>
                                 <h5 class="c-black mb-2 mt-n1">Inpogram</h5>
                                 <div class="socials">
-                                    <a>Created by <a href="https://github.com/shluf/" target="_blank">@shluf</a> </a>
+                                    <a>Created by <a href="https://github.com/shluf/" target="_blank">Salis Haidar</a> </a>
                                 </div>
                             </div>
                         </div>

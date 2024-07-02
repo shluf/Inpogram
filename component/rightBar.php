@@ -1,3 +1,7 @@
+<?php 
+include "method/follow.php";
+?>
+
 <aside class="d-none d-lg-block">
   <section class="main-profile p-3 rounded">
     <div class="profile-info">
@@ -16,10 +20,9 @@
 
           include "database.php";
 
-          // Query untuk mendapatkan daftar orang yang belum di-follow
           $username = $_SESSION["username"];
           $sql = "
-            SELECT Username, NAME, Bio 
+            SELECT Username, NAME, Bio, PhotoProfile 
             FROM Users 
             WHERE Username != '$username' 
               AND Username NOT IN (
@@ -35,7 +38,7 @@
             while($row = $result->fetch_assoc()) {
               $followed = false;
               $followedText = "Follow";
-              // Cek apakah sudah di-follow
+
               $checkFollowSql = "SELECT * FROM FOLLOWS WHERE FollowerUsername = '$username' AND FollowedUsername = '" . $row["Username"] . "'";
               $checkFollowResult = $conn->query($checkFollowSql);
               if ($checkFollowResult->num_rows > 0) {
@@ -44,16 +47,17 @@
               }
               echo '
                 <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-                  <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32"
+                  <img src="'. $row["PhotoProfile"] .'" alt=" " width="32" height="32"
                     class="rounded-circle flex-shrink-0">
                   <div class="d-flex gap-2 w-100 justify-content-between">
                     <div>
                       <h6 class="mb-0">' . $row["NAME"] . '</h6>
                       <p class="mb-0 opacity-75">' . $row["Bio"] . '</p>
                     </div>
-                    <form method="post" action="method/follow_from_dashboard.php">
+                    <form method="post">
                       <input type="hidden" name="username_to_follow" value="' . $row["Username"] . '">
-                      <button type="submit" class="btn btn-primary">' . $followedText . '</button>
+                      <input type="hidden" name="refresh" value="false">
+                      <button type="submit" name="follow" class="btn btn-primary">' . $followedText . '</button>
                     </form>
                   </div>
                 </a>
@@ -71,7 +75,7 @@
       <h3>Notifikasi</h3>
       <div class="list-group">
         <?php
-        // Query untuk mendapatkan notifikasi terbaru
+
         $sql = "
           SELECT NotificationID, Message, DATETIME 
           FROM Notifications 
@@ -85,12 +89,12 @@
           while($row = $result->fetch_assoc()) {
             echo '
               <div class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-                <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32"
-                  class="rounded-circle flex-shrink-0">
+                <i class="bi bi-bell" width="32" height="32"></i>
+                  
                 <div class="d-flex gap-2 w-100 justify-content-between align-items-center">
                   <div>
                     <div class="notification-header">
-                    <h6 class="mb-0">Notification</h6>
+                    <h6 class="mb-0">Ada inpo</h6>
                     <small class="opacity-50 text-nowrap">' . date("H:i, d F", strtotime($row["DATETIME"])) . '</small>
                     </div>
                     <p class="mb-0 opacity-75">' . $row["Message"] . '</p>

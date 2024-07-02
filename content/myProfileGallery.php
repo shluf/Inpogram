@@ -34,8 +34,8 @@ if ($result->num_rows > 0) {
                 } else {
                     echo '<div class="col-md-6">';
                 }
-                echo '<a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                    <img src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
+                echo '<a class="lightbox" href="' . $post['Image'] . '">
+                    <img src="' . $post['Image'] . '" alt="' . $post['DESCRIPTION'] . '">
                     </a>
                     </div>';
             }

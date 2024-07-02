@@ -5,7 +5,7 @@
             <div class="col-md-12 form-container">
                 <div class="col-12">
                     <div class="form-floating">
-                        <textarea class="form-control" name="caption" placeholder="Add Caption" id="floatingTextarea" style="height: 100px;"><?php echo isset($_GET['caption']) ? htmlspecialchars(trim($_GET['caption'])) : null; ?></textarea>
+                        <textarea class="form-control" name="caption" placeholder="Add Caption" id="floatingTextarea" style="height: 100px;"><?= isset($_GET['caption']) ? trim($_GET['caption']) : null; ?></textarea>
                         <label for="floatingTextarea">Add Caption</label>
                     </div>
                 </div>
@@ -21,10 +21,10 @@
                         </div>
                     </div>
                 </div>
-                <i>*<?= $notification ?></i>
+                <i><?= $notification ?></i>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary">Posting</button>
-                    <button type="reset" class="btn btn-secondary" onclick="reset()">Clear</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
                 </div>
         </form>
     </main>
@@ -48,15 +48,5 @@
         if (file) {
             reader.readAsDataURL(file);
         }
-    }
-
-    function reset() {
-        const previewContainer = document.getElementById('preview-container');
-        const dropzone = document.getElementById('dropzone');
-        const title = document.getElementById('drop-title');
-
-            dropzone.style.opacity = 1;
-            title.style.opacity = 1;
-            previewContainer.style.backgroundImage = ``;
     }
 </script>

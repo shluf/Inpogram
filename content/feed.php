@@ -30,55 +30,54 @@ $result = $stmt->get_result();
       <ul class="status-list">
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-plus-circle status-icon" style="border-radius: 50%;"></i>
-          <p>add</p>
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
         <li class="profile-status" style="margin: 10px;">
           <i class="bi bi-person-circle status-icon" style="border-radius: 50%;"></i>
-          <p>name</p>
+          
         </li>
       </ul>
     </section>
@@ -125,7 +124,7 @@ $result = $stmt->get_result();
       <?php
         }
       } else {
-        echo "<p>No posts available.</p>";
+        echo "<p>Kosong...</p>";
       }
       $stmt->close();
       $conn->close();

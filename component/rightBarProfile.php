@@ -3,18 +3,11 @@
 
 include "database.php";
 
-$username = $_SESSION['username']; 
+include "method/followed.php";
+include "method/unfollow.php";
+include "method/follow.php";
 
-$queryFollowingList = "SELECT FollowedUsername FROM FOLLOWS WHERE FollowerUsername = ?";
-$stmtFollowingList = $conn->prepare($queryFollowingList);
-$stmtFollowingList->bind_param('s', $username);
-$stmtFollowingList->execute();
-$resultFollowingList = $stmtFollowingList->get_result();
-
-$followingArray = [];
-while ($following = $resultFollowingList->fetch_assoc()) {
-    $followingArray[] = $following['FollowedUsername'];
-}
+$username = $_SESSION['username'];
 
 ?>
 
@@ -25,13 +18,13 @@ while ($following = $resultFollowingList->fetch_assoc()) {
         <!-- Display Profile Card -->
         <div id="display-profile-card" class="card profile-card" style="border-radius: 15px;">
             <div class="card-body p-4">
-                <div class="d-flex">
+                <div class="d-flex flex-xl-row flex-column justify-content-center align-items-center">
                     <div class="flex-shrink-0">
-                        <img src="<?= htmlspecialchars($userInfo['PhotoProfile']) ?>" alt="Profile Image" class="img-fluid" style="width: 180px; height: 180px; border-radius: 10px;">
+                        <img src="<?= $userInfo['PhotoProfile'] ?>" alt="" class="img-fluid" style="width: 180px; height: 180px; border-radius: 10px;">
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <h5 class="mb-1"><?= htmlspecialchars($fullname) ?></h5>
-                        <p class="mb-2 pb-1"><small>@<?= htmlspecialchars($username) ?></small></p>
+                        <h5 class="mb-1"> <?= $fullname ?> </h5>
+                        <p class="mb-2 pb-1"><small>@<?= $username ?></small></p>
                         <div class="d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary">
                             <div>
                                 <p class="small text-muted mb-1">Post</p>
@@ -53,7 +46,7 @@ while ($following = $resultFollowingList->fetch_assoc()) {
                 </div>
                 <p class="mb-2 mt-4">Bio</p>
                 <div class="d-flex justify-content-start rounded-3 p-2 mb-2 mt-2 bg-body-tertiary">
-                    <p><?= htmlspecialchars($userInfo['Bio']) ?></p>
+                    <p><?= $userInfo['Bio'] ?></p>
                 </div>
             </div>
         </div>
@@ -62,7 +55,7 @@ while ($following = $resultFollowingList->fetch_assoc()) {
         <div id="edit-profile-card" class="card profile-card" style="border-radius: 15px; display: none;">
             <div class="card-body p-4">
                 <form method="post" action="profile.php" enctype="multipart/form-data">
-                    <div class="d-flex">
+                    <div class="d-flex flex-xl-row flex-column justify-content-center align-items-center">
                         <div class="flex-shrink-0">
                             <div class="dropzone-profile" id="dropzone">
                                 <img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon-profile" id="upload-icon" />
@@ -70,8 +63,8 @@ while ($following = $resultFollowingList->fetch_assoc()) {
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h5 class="mb-1"><input type="text" name="fullname" placeholder="<?= htmlspecialchars($fullname) ?>" class="form-control"></h5>
-                            <p class="mb-2 pb-1"><small>@<?= htmlspecialchars($username) ?></small></p>
+                            <h5 class="mb-1"><input type="text" name="fullname" placeholder="<?= $fullname ?>" class="form-control"></h5>
+                            <p class="mb-2 pb-1"><small>@<?= $username ?></small></p>
                             <div class="d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary">
                                 <div>
                                     <p class="small text-muted mb-1">Post</p>
@@ -93,7 +86,7 @@ while ($following = $resultFollowingList->fetch_assoc()) {
                         </div>
                     </div>
                     <p class="mb-2 mt-4">Bio</p>
-                        <textarea name="bio" class="form-control bg-body-tertiary"><?= htmlspecialchars($userInfo['Bio']) ?></textarea>
+                        <textarea name="bio" class="form-control bg-body-tertiary"><?= $userInfo['Bio'] ?></textarea>
                 </form>
             </div>
         </div>
@@ -104,19 +97,28 @@ while ($following = $resultFollowingList->fetch_assoc()) {
                 <div class="list-group">
                     <?php while ($follower = $resultFollowerList->fetch_assoc()): ?>
                         <form method="post" action="">
-                            <input type="hidden" name="followedUser" value="<?= htmlspecialchars($follower['Username']) ?>">
+                            <input type="hidden" name="followedUser" value="<?= $follower['Username'] ?>">
                             <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-                                <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+                                <img src="<?= $follower['PhotoProfile'] ?>" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
                                 <div class="d-flex gap-2 w-100 justify-content-between">
                                     <div>
-                                        <h6 class="mb-0"><?= htmlspecialchars($follower['NAME']) ?></h6>
-                                        <p class="mb-0 opacity-75">@<?= htmlspecialchars($follower['Username']) ?></p>
+                                        <h6 class="mb-0"><?= $follower['NAME'] ?></h6>
+                                        <p class="mb-0 opacity-75">@<?= $follower['Username'] ?></p>
                                     </div>
-                                    <?php if (in_array($follower['Username'], $followingArray)): ?>
+                                    <!-- <form method="post"> -->
+                                    <?= (in_array($follower['Username'], $followingArray)) ? 
+                                        '<form method="post">
+                                        <input type="hidden" name="username_to_unfollow" value="' . $follower["Username"] . '">
                                         <button type="submit" name="unfollow" class="btn btn-outline-primary">Unfollow</button>
-                                    <?php else: ?>
+                                        </form>' 
+                                        : 
+                                        '<form method="post">
+                                        <input type="hidden" name="refresh" value="true">
+                                        <input type="hidden" name="username_to_follow" value="' . $follower["Username"] . '">
                                         <button type="submit" name="follow" class="btn btn-primary">Follback</button>
-                                    <?php endif; ?>
+                                        </form>' 
+                                    ?>
+                                    <!-- </form> -->
                                 </div>
                             </a>
                         </form>
