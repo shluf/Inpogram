@@ -12,8 +12,10 @@ if (isset($_POST['login'])) {
     $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
 
     $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
+    
+    if ($username == '' || $password == '') {
+        $notify = "Silahkan masukan username dan password";
+    } elseif ($result->num_rows > 0) {
 
         $data = $result->fetch_assoc();
         $_SESSION["username"] = $data["Username"];

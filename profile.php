@@ -6,15 +6,15 @@ include "database.php";
 $username = $_SESSION['username'];
 $fullname = $_SESSION['fullname'];
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['saveProfile'])) {
-  $newFullname = $_POST['fullname'];
+  $newFullname = ($_POST['fullname'] == '' ? $_SESSION['fullname'] : $_POST['fullname']);
   $newBio = $_POST['bio'];
-  $newPhoto = '';
+  $newPhoto = $_SESSION['profilepict'];
 
   if (isset($_FILES['profilePhoto']) && $_FILES['profilePhoto']['error'] == UPLOAD_ERR_OK) {
       $newPhoto = 'images/profiles/' . basename($_FILES['profilePhoto']['name']);
       move_uploaded_file($_FILES['profilePhoto']['tmp_name'], $newPhoto);
+      $_SESSION['profilepict'] = $newPhoto;
   }
 
   // Update query untuk memperbarui informasi pengguna
@@ -26,6 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['saveProfile'])) {
   // Refresh data pengguna
   $_SESSION['fullname'] = $newFullname;
   $fullname = $newFullname;
+
+ 
 }
 
 // Query untuk mendapatkan informasi pengguna

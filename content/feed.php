@@ -85,7 +85,7 @@ $result = $stmt->get_result();
     <section class="feeds">
       <section class="new-content content">
         <div class="content-header">
-          <i class="bi bi-person-circle"></i>
+        <img src="<?= $_SESSION['profilepict'] ?>" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;" >
         </div>
         <div class="content-body">
           <textarea id="feed-caption" rows="2" cols="60" placeholder="Apa yang sedang kamu pikirkan?"></textarea>

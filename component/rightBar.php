@@ -8,7 +8,7 @@ include "method/follow.php";
       <p class="main-profile-name"><?= $_SESSION["fullname"] ?></p>
       <p class="main-profile-username"><small>@<?= $_SESSION["username"] ?></small></p>
     </div>
-    <img src="<?= $_SESSION['profilepict'] ?>" class="rounded-circle" style="width: 52px; height: 52px; object-fit: cover;" >
+    <img src="<?= $_SESSION['profilepict'] ?>" class="rounded-circle" style="width: 54px; height: 54px; object-fit: cover;" >
   </section>
   
   <div class="aside-container">

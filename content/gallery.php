@@ -26,23 +26,7 @@ $searchQuery = isset($_GET['search_query']) ? $_GET['search_query'] : null;
 
 
 if (!empty($searchQuery)) {
-    $querySearch= "SELECT Posts.*, Users.Username
-                    FROM Posts 
-                    JOIN Users ON Posts.Username = Users.Username 
-                    WHERE Users.Username LIKE ? OR Users.Name LIKE ? OR Posts.DESCRIPTION LIKE ?";
-    $stmtSearch = $conn->prepare($querySearch);
-    $searchTerm = '%' . $searchQuery . '%';
-    $stmtSearch->bind_param('sss', $searchTerm, $searchTerm, $searchTerm);
-    $stmtSearch->execute();
-    $resultSearch = $stmtSearch->get_result();
-
-
-    while ($row = $resultSearch->fetch_assoc()) {
-        $postsUser[] = $row;
-        $posts = [];
-    }
-    
-    $querySearch= "SELECT Users.Username, Users.NAME, Users.Bio, Users.PhotoProfile
+    $querySearch = "SELECT Username, NAME, Bio, PhotoProfile
                     FROM Users
                     WHERE Username LIKE ? OR NAME LIKE ?;";
     $stmtSearch = $conn->prepare($querySearch);
@@ -52,16 +36,35 @@ if (!empty($searchQuery)) {
     $resultSearch = $stmtSearch->get_result();
 
     if ($resultSearch->num_rows > 0) {
+        $posts = [];
         while ($row = $resultSearch->fetch_assoc()) {
             $userResult[] = $row;
-            $posts = [];
         }
     } else {
-    $postsUser[0] = "empty";
-    $userResult[0] = "empty";
+        $postsUser[0] = "empty";
+        $userResult[0] = "empty";
     }
 
 
+    $querySearch = "SELECT Posts.*, Users.Username
+                    FROM Posts 
+                    JOIN Users ON Posts.Username = Users.Username 
+                    WHERE Users.Username LIKE ? OR Users.Name LIKE ? OR Posts.DESCRIPTION LIKE ?";
+    $stmtSearch = $conn->prepare($querySearch);
+    $searchTerm = '%' . $searchQuery . '%';
+    $stmtSearch->bind_param('sss', $searchTerm, $searchTerm, $searchTerm);
+    $stmtSearch->execute();
+    $resultSearch = $stmtSearch->get_result();
+
+    if ($resultSearch->num_rows > 0) {
+        $posts = [];
+        while ($row = $resultSearch->fetch_assoc()) {
+            $postsUser[] = $row;
+        }
+    } else {
+        $postsUser[0] = "empty";
+    }
+    
 } else {
     $postsUser[0] = "empty";
     $userResult[0] = "empty";
@@ -102,10 +105,10 @@ if ($postsUser[0] != "empty") {
 
 
         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4 w-100">
-        <?php 
-        if ($postsUser[0] != "empty") {
-            foreach ($userResult as $user) {
-                echo '<div class="container mb-3">
+            <?php
+            if ($userResult[0] != "empty") {
+                foreach ($userResult as $user) {
+                    echo '<div class="container mb-3">
                         <div class="col">
                             <div class="card radius-15">
                                 <div class="card-body text-center">
@@ -119,21 +122,21 @@ if ($postsUser[0] != "empty") {
                                         </div>
                                        
           
-                                        '. 
-                                        
-                                        ((in_array($user['Username'], $followingArray)) ? 
-                                            '<form method="post">
+                                        ' .
+
+                        ((in_array($user['Username'], $followingArray)) ?
+                            '<form method="post">
                                             <input type="hidden" name="username_to_unfollow" value="' . $user["Username"] . '">
                                             <button type="submit" name="unfollow" class="btn btn-outline-primary">Unfollow</button>
-                                            </form>' 
-                                            : 
-                                            '<form method="post">
+                                            </form>'
+                            :
+                            '<form method="post">
                                             <input type="hidden" name="refresh" value="true">
                                             <input type="hidden" name="username_to_follow" value="' . $user["Username"] . '">
-                                            <button type="submit" name="follow" class="btn btn-primary">Follback</button>
-                                            </form>') 
-                                        
-                                        .'
+                                            <button type="submit" name="follow" class="btn btn-primary">Follow</button>
+                                            </form>')
+
+                        . '
 
                                         
                                     </div>
@@ -144,10 +147,10 @@ if ($postsUser[0] != "empty") {
                 ';
                 }
             }
-        ?>
+            ?>
         </div>
 
-        <div class="row">
+        <div class="row w-100">
 
 
             <?php
@@ -224,12 +227,12 @@ if ($postsUser[0] != "empty") {
             $countSearch = 0;
 
             if ($postsUser[0] != "empty") {
-            foreach ($postsUser as $post) {
-                $countSearch++;
+                foreach ($postsUser as $post) {
+                    $countSearch++;
 
-                switch ($countSearch) {
-                    case 1:
-                        echo '<div class="col-sm-12 col-md-4">
+                    switch ($countSearch) {
+                        case 1:
+                            echo '<div class="col-sm-12 col-md-4">
                             <div style="position: relative;">
                                 <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
                                 <img src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
@@ -237,9 +240,9 @@ if ($postsUser[0] != "empty") {
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>
                         </div>';
-                        break;
-                    case 2:
-                        echo '<div class="col-sm-6 col-md-4 row-1">
+                            break;
+                        case 2:
+                            echo '<div class="col-sm-6 col-md-4 row-1">
                             <div style="position: relative;">
                                 <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
                                 <img style="object-fit: cover;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
@@ -247,9 +250,9 @@ if ($postsUser[0] != "empty") {
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>
                         </div>';
-                        break;
-                    case 3:
-                        echo '<div class="col-sm-6 col-md-4">
+                            break;
+                        case 3:
+                            echo '<div class="col-sm-6 col-md-4">
                             <div style="position: relative;">
                                 <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
                                 <img src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
@@ -258,9 +261,9 @@ if ($postsUser[0] != "empty") {
                             </div>
                         </div>
                     ';
-                        break;
-                    case 4:
-                        echo '<div class="col-sm-12 col-md-8">
+                            break;
+                        case 4:
+                            echo '<div class="col-sm-12 col-md-8">
                             <div style="position: relative;">
                                 <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
                                 <img src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
@@ -268,29 +271,29 @@ if ($postsUser[0] != "empty") {
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>
                         </div>';
-                        break;
-                    case 5:
-                        echo '<div class="col-sm-12 col-md-4 ">
+                            break;
+                        case 5:
+                            echo '<div class="col-sm-12 col-md-4 ">
                             <div style="position: relative;">
                                 <a class="lightbox col-sm-6" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
                                 <img class="w-100 shadow-1-strong rounded mb-1" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
                                 </a>
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>';
-                        break;
-                    case 6:
-                        $countSearch = 0;
-                        echo '<div style="position: relative;">
+                            break;
+                        case 6:
+                            $countSearch = 0;
+                            echo '<div style="position: relative;">
                             <a class="lightbox col-sm-6" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
                                 <img class="w-100 shadow-1-strong rounded" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
                                 </a>
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>
                         </div>';
-                        break;
+                            break;
+                    }
                 }
             }
-        }
 
             ?>
 
