@@ -2,7 +2,7 @@
 
 include "database.php";
 
-include "method/followed.php";
+include "method/followed_username.php";
 include "method/follow.php";
 include "method/unfollow.php";
 
