@@ -8,7 +8,7 @@ include "method/unfollow.php";
 
 $username = $_SESSION['username'];
 
-$sql = "SELECT Username, Image, DESCRIPTION FROM Posts";
+$sql = "SELECT * FROM Posts";
 $result = $conn->query($sql);
 
 $posts = [];
@@ -77,6 +77,9 @@ if ($postsUser[0] != "empty") {
 }
 
 ?>
+
+
+<?php include "component/modalPost.php"; ?>
 
 
 <div class="container gallery-container">
@@ -150,8 +153,9 @@ if ($postsUser[0] != "empty") {
             ?>
         </div>
 
-        <div class="row w-100">
 
+
+        <div class="row w-100">
 
             <?php
 
@@ -162,64 +166,52 @@ if ($postsUser[0] != "empty") {
 
                 switch ($count) {
                     case 1:
-                        echo '<div class="col-sm-12 col-md-4">
-                            <div style="position: relative;">
-                                <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
-                                <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
-                            </div>
-                        </div>';
+                        echo '<div class="col-sm-12 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                        <div style="position: relative;">
+                            <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
+                            <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
+                        </div>
+                    </div>';
+                    
                         break;
                     case 2:
-                        echo '<div class="col-sm-6 col-md-4 row-1">
-                            <div style="position: relative;">
-                                <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img style="object-fit: cover;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
-                                <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
-                            </div>
-                        </div>';
+                        echo '<div class="col-sm-6 col-md-4 row-1" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                        <div style="position: relative;">
+                            <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
+                            <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
+                        </div>
+                    </div>';
                         break;
                     case 3:
-                        echo '<div class="col-sm-6 col-md-4">
-                            <div style="position: relative;">
-                                <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
-                                <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
-                            </div>
+                        echo '<div class="col-sm-6 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                        <div style="position: relative;">
+                            <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
+                            <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                         </div>
-                    ';
+                    </div>';
                         break;
                     case 4:
-                        echo '<div class="col-sm-12 col-md-8">
-                            <div style="position: relative;">
-                                <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
-                                <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
-                            </div>
-                        </div>';
+                        echo '<div class="col-sm-12 col-md-8" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                        <div style="position: relative;">
+                            <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
+                            <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
+                        </div>
+                    </div>';
                         break;
                     case 5:
                         echo '<div class="col-sm-12 col-md-4 ">
-                            <div style="position: relative;">
-                                <a class="lightbox col-sm-6" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img class="w-100 shadow-1-strong rounded mb-1" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
-                                <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
-                            </div>';
+                        <div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                            <img class="col-sm-6 w-100 shadow-1-strong rounded mb-1" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
+                            <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
+                        </div>';
                         break;
                     case 6:
                         $count = 0;
-                        echo '<div style="position: relative;">
-                            <a class="lightbox col-sm-6" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img class="w-100 shadow-1-strong rounded" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
-                                <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
-                            </div>
-                        </div>';
+                        echo '<div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                            <img class="col-sm-6 w-100 shadow-1-strong rounded" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
+                            <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
+                        </div>
+                    </div>';
                         break;
                 }
             }
@@ -232,61 +224,49 @@ if ($postsUser[0] != "empty") {
 
                     switch ($countSearch) {
                         case 1:
-                            echo '<div class="col-sm-12 col-md-4">
+                            echo '<div class="col-sm-12 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                             <div style="position: relative;">
-                                <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
+                                <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>
                         </div>';
+                        
                             break;
                         case 2:
-                            echo '<div class="col-sm-6 col-md-4 row-1">
+                            echo '<div class="col-sm-6 col-md-4 row-1" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                             <div style="position: relative;">
-                                <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img style="object-fit: cover;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
+                                <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>
                         </div>';
                             break;
                         case 3:
-                            echo '<div class="col-sm-6 col-md-4">
+                            echo '<div class="col-sm-6 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                             <div style="position: relative;">
-                                <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
+                                <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>
-                        </div>
-                    ';
+                        </div>';
                             break;
                         case 4:
-                            echo '<div class="col-sm-12 col-md-8">
+                            echo '<div class="col-sm-12 col-md-8" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                             <div style="position: relative;">
-                                <a class="lightbox" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
+                                <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>
                         </div>';
                             break;
                         case 5:
                             echo '<div class="col-sm-12 col-md-4 ">
-                            <div style="position: relative;">
-                                <a class="lightbox col-sm-6" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img class="w-100 shadow-1-strong rounded mb-1" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
+                            <div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                                <img class="col-sm-6 w-100 shadow-1-strong rounded mb-1" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>';
                             break;
                         case 6:
                             $countSearch = 0;
-                            echo '<div style="position: relative;">
-                            <a class="lightbox col-sm-6" href="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '">
-                                <img class="w-100 shadow-1-strong rounded" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
-                                </a>
+                            echo '<div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                                <img class="col-sm-6 w-100 shadow-1-strong rounded" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>
                         </div>';
@@ -303,7 +283,6 @@ if ($postsUser[0] != "empty") {
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
-<script>
-    baguetteBox.run('.tz-gallery');
-</script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+<script> baguetteBox.run('.tz-gallery'); </script> -->
+<script src="js/loadComments.js"></script>

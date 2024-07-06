@@ -4,7 +4,7 @@ include "database.php";
 
 $username = $_SESSION['username'];
 
-$sql = "SELECT Image, DESCRIPTION FROM Posts WHERE Username = ?";
+$sql = "SELECT * FROM Posts WHERE Username = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $username);
 $stmt->execute();
@@ -18,6 +18,8 @@ if ($result->num_rows > 0) {
 }
 ?>
 
+<?php include "component/modalPost.php"; ?>
+
 <div class="container">
     <div class="tz-gallery">
         <div class="row">
@@ -30,13 +32,11 @@ if ($result->num_rows > 0) {
                 $count++;
                 if ($count >= 3) {
                     $count = 0;
-                    echo '<div class="col-md-12">';
+                    echo '<div class="col-md-12" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">';
                 } else {
-                    echo '<div class="col-md-6">';
+                    echo '<div class="col-md-6" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">';
                 }
-                echo '<a class="lightbox" href="' . $post['Image'] . '">
-                    <img src="' . $post['Image'] . '" alt="' . $post['DESCRIPTION'] . '">
-                    </a>
+                echo '<img style="width: 100%; border-radius: 5px;" src="' . $post['Image'] . '" alt="' . $post['DESCRIPTION'] . '">
                     </div>';
             }
 
@@ -46,7 +46,4 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
-    <script>
-        baguetteBox.run('.tz-gallery');
-    </script>
+    <script src="js/loadComments.js"></script>

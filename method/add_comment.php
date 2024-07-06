@@ -1,6 +1,4 @@
 <?php
-session_start();
-include "../database.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_post']) && isset($_POST['post_id'])) {
     if ($_POST['comment_post'] != '') {
@@ -14,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_post']) && is
         $stmt->bind_param("iss", $post_id, $username, $comment_text);
         if ($stmt->execute()) {
             // Redirect back to the feed or post
-            header("Location: ../dashboard.php");
+            header("Location: ".$_SERVER['REQUEST_URI']);
             exit();
         } else {
             echo "Error: " . $stmt->error;

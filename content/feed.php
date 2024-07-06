@@ -102,62 +102,7 @@ $result = $stmt->get_result();
         </div>
       </section>
 
-
-      <div class="modal fade" id="commentsModal" tabindex="-1" aria-labelledby="commentsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-          <div class="modal-content">
-
-            <div class="modal-body p-0" style="height: 468px;">
-
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="row">
-                      <div class="col-6 p-0">
-
-                        <img id="modalImage" style="width: 100%; min-width: 468px; min-height: 468px; object-fit: cover; border-radius: 5px 0 0 5px" src="" alt="profile">
-
-                      </div>
-                      <div class="col-6">
-                        <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="commentsModalLabel">Komentar</h1>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-
-
-                        <section class="overflow-y-auto" style="height: calc(468px - 62.8px);">
-                          <div id="post-desc">
-
-                          </div>
-                          <div class="container" id="commentContainer">
-                            <!-- Komentar akan ditambahkan di sini -->
-                          </div>
-                        </section>
-
-                        <form id="commentForm" method="post" action="method/add_comment.php">
-                          <div class="position-absolute w-100" style="bottom: -1px;">
-                            <div class="row">
-                              <div class="col-5 p-0">
-                                <input type="hidden" id="postId" name="post_id">
-                                <input type="text" class="form-control" id="comment-post" name="comment_post" placeholder="Tambah komentar..." style="border:0 solid white; border-radius:0;">
-                              </div>
-                              <div class="col-1 p-0">
-                                <button type="submit" class="btn w-100"><i class="bi bi-send"></i></button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <?php include "component/modalPost.php"; ?>
 
       <?php
       if ($result->num_rows > 0) {
@@ -210,47 +155,11 @@ $result = $stmt->get_result();
       ?>
     </section>
 
+    <script src="js/loadComments.js"></script>
     <script>
-      function loadComments(postId, imageUrl, postUsername, description) {
-        document.getElementById('postId').value = postId;
-
-        document.getElementById('modalImage').src = imageUrl;
-
-        document.getElementById('post-desc').innerHTML = `<p><b style="margin-right: 5px;">@${postUsername}</b>${description}</p>`
-
-        const commentContainer = document.getElementById('commentContainer');
-        commentContainer.innerHTML = '';
-
-        fetch(`method/get_comments.php?post_id=${postId}`)
-          .then(response => response.json())
-          .then(data => {
-            data.forEach(comment => {
-              const commentElement = document.createElement('div');
-              commentElement.classList.add('comment');
-              commentElement.innerHTML = `
-            <div class="d-flex flex-start mb-4 overflow-y-auto">
-              <img class="rounded-circle shadow-1-strong me-3" src="${comment.avatar}" alt="avatar" width="32" height="32" />
-
-                  <div class="">
-                    <p class="mb-0"><b style="margin-right: 5px;">@${comment.username}</b> ${comment.text}</p>
-                  
-                    <p style="font-size: 0.7rem">${comment.datetime}</p>
-                    <!--
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="d-flex align-items-center">
-                        <a href="#!" class="link-muted me-2"><i class="fas fa-thumbs-up me-1"></i>132</a>
-                        <a href="#!" class="link-muted"><i class="fas fa-thumbs-down me-1"></i>15</a>
-                      </div>
-                      <a href="#!" class="link-muted"><i class="fas fa-reply me-1"></i> Reply</a>
-                    </div>
-                    -->
-                  </div>
-
-            </div>
-          `;
-              commentContainer.appendChild(commentElement);
-            });
-          });
+      function moveCaption() {
+        const captionText = document.getElementById('feed-caption').value;
+        window.location.href = 'upload.php?caption=' + encodeURIComponent(captionText);
       }
 
       function addLike(postId) {
