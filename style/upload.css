@@ -1,13 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
 
 .frame {
-	/* position: relative;
-	top: 50%;
-	left: 50%; */
 	width: 650px;
 	height: 400px;
-	/* margin-top: -200px;
-	margin-left: -200px; */
 	border-radius: 2px;
 	box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1);
 	overflow: hidden;
@@ -71,20 +66,28 @@ h2 {
 	opacity: 0;
 }
 
-/* .btn {
-	display: block;
-	width: 140px;
-	height: 40px;
-	background: darkmagenta;
-	color: #fff;
-	border-radius: 3px;
-	border: 0;
-	box-shadow: 0 3px 0 0 hotpink;
-	transition: all 0.3s ease-in-out;
-	font-size: 14px;
-}
+@media (max-width: 768px) {
+	.frame {
+		width: 100%;
+		height: auto;
+	}
 
-.btn:hover {
-	background: rebeccapurple;
-	box-shadow: 0 3px 0 0 deeppink;
-} */
+	.center {
+		width: 100%;
+	}
+
+	.dropzone {
+		width: 70%;
+		height: auto;
+		max-height: 100px;
+	}
+
+	.upload-icon {
+		margin: 35px 2px 2px 2px;
+	}
+	
+
+	h2 {
+		font-size: 14px;
+	}
+}

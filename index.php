@@ -9,7 +9,7 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $sql = "SELECT * FROM Users WHERE username='$username' AND password='$password'";
 
     $result = $conn->query($sql);
     
@@ -46,7 +46,7 @@ if (isset($_POST['login'])) {
     <div class="container">
         <div class="row">
             <div class="col-md-11 mt-60 mx-md-auto">
-                <div class="login-box bg-white pl-lg-5 pl-0">
+                <div class="login-box bg-white pl-lg-5 pl-0 ml-5 mr-5">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-6">
                             <div class="form-wrap bg-white">

@@ -90,7 +90,7 @@ $result = $stmt->get_result();
     </section>
 
     <section class="feeds">
-      <section class="new-content content">
+      <section class="new-content content shadow-sm">
         <div class="content-header">
           <img src="<?= $_SESSION['profilepict'] ?>" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
         </div>
@@ -109,7 +109,7 @@ $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
       ?>
 
-          <div class="content">
+          <div class="content shadow-sm">
             <div class="content-header">
               <i class="bi bi-person-circle"></i>
               <div class="username-time">
@@ -123,7 +123,7 @@ $result = $stmt->get_result();
                 <div class="d-flex flex-column justify-content-center align-items-center gap-2">
                   <img class="rounded" src="<?php echo $row['Image']; ?>" alt="profile">
 
-                  <div id="like" class="d-flex gap-2 w-100 justify-content-start px-5">
+                  <div id="like" class="d-flex gap-2 w-100 justify-content-start px-md-5 px-2">
                     <div class="btn" onclick="addLike(<?php echo $row['PostID']; ?>)">
                       <span><?php echo $row['LikeCount']; ?></span>
                       <?php

@@ -86,7 +86,7 @@ $resultFollowerList = $stmtFollowerList->get_result();
 
 <body>
 
-<?php include("component/LeftBar.php") ?>
+<?php include("component/leftBar.php") ?>
 <div class="app">
   <main class="my-gallery-container  d-md-block d-none">
     <?php include("content/myProfileGallery.php") ?>

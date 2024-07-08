@@ -6,18 +6,20 @@ include "method/add_comment.php";
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content">
 
-            <div class="modal-body p-0" style="height: 468px;">
+            <div class="modal-body p-0" style="height: 400px;">
 
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-sm-12">
-                    <div class="row">
-                      <div class="col-6 p-0">
+                    <div class="container-comment flex-xl-row row">
+                      <span id="modalImageBackground" class="modalImageBackground"></span>
+                      
+                      <div class="modalImageContainer col-xl-6 p-0">
 
-                        <img id="modalImage" style="width: 100%; min-width: 468px; min-height: 468px; object-fit: cover; border-radius: 5px 0 0 5px" src="" alt="profile">
+                        <img id="modalImage" class="modalImage" src="" alt="profile">
 
                       </div>
-                      <div class="col-6">
+                      <div class="comment-content col-xl-6">
                         <div class="modal-header">
                           <h1 class="modal-title fs-5" id="commentsModalLabel">Komentar</h1>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -25,7 +27,7 @@ include "method/add_comment.php";
 
 
 
-                        <section class="overflow-y-auto" style="height: calc(468px - 62.8px);">
+                        <section class="overflow-y-auto" style="height: 400px">
                           <div id="post-desc">
 
                           </div>
@@ -35,16 +37,15 @@ include "method/add_comment.php";
                         </section>
 
                         <form id="commentForm" method="post" >
-                          <div class="position-absolute w-100" style="bottom: -1px;">
-                            <div class="row">
-                              <div class="col-5 p-0">
+                          <div class="commentForm position-absolute d-flex flex-row rounded shadow" style="bottom: 10px; max-width: 545px;">
+                            
+        
                                 <input type="hidden" id="postId" name="post_id">
-                                <input type="text" class="form-control" id="comment-post" name="comment_post" placeholder="Tambah komentar..." style="border:0 solid white; border-radius:0;">
-                              </div>
-                              <div class="col-1 p-0">
-                                <button type="submit" class="btn w-100"><i class="bi bi-send"></i></button>
-                              </div>
-                            </div>
+                                <input type="text" class="form-control" id="comment-post" name="comment_post" placeholder="Tambah komentar..." style="border:0 solid white; background-color: transparent; border-radius:0;">
+
+                                <button type="submit" class="btn w-25"><i class="bi bi-send"></i></button>
+
+                            
                           </div>
                         </form>
 
