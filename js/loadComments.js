@@ -1,7 +1,7 @@
 function loadComments(postId, imageUrl, postUsername, description) {
     document.getElementById('postId').value = postId;
 
-    document.getElementById('modalImageBackground').style.backgroundImage = `url(${imageUrl})`;
+    document.getElementById('modalImageBackground').src = imageUrl;
     document.getElementById('modalImage').src = imageUrl;
 
     // window.location.href = 'dashboard.php?post=' + postId;

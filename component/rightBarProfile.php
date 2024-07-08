@@ -23,7 +23,7 @@ $username = $_SESSION['username'];
                     <div class="flex-shrink-0">
                         <img src="<?= $userInfo['PhotoProfile'] ?>" alt="" class="img-fluid" style="width: 180px; height: 180px; border-radius: 10px;">
                     </div>
-                    <div class="flex-grow-1 ms-3">
+                    <div class="flex-grow-1 ms-3 mt-3">
                         <h5 class="mb-1"> <?= $fullname ?> </h5>
                         <p class="mb-2 pb-1"><small>@<?= $username ?></small></p>
                         <div class="d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary">
@@ -63,7 +63,7 @@ $username = $_SESSION['username'];
                                 <input type="file" class="upload-input-profile form-control" name="profilePhoto" onchange="previewFile()">
                             </div>
                         </div>
-                        <div class="flex-grow-1 ms-3">
+                        <div class="flex-grow-1 ms-3 mt-3">
                             <h5 class="mb-1"><input type="text" name="fullname" placeholder="<?= $fullname ?>" class="form-control"></h5>
                             <p class="mb-2 pb-1"><small>@<?= $username ?></small></p>
                             <div class="d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary">

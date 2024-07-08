@@ -2,8 +2,7 @@
 include "method/follow.php";
 ?>
 
-<aside class="d-none d-lg-block">
-  <section class="main-profile p-3 rounded">
+  <section class="d-none d-md-flex main-profile p-3 rounded">
     <div class="profile-info">
       <p class="main-profile-name"><?= $_SESSION["fullname"] ?></p>
       <p class="main-profile-username"><small>@<?= $_SESSION["username"] ?></small></p>
@@ -116,4 +115,3 @@ include "method/follow.php";
       </div>
     </section>
   </div>
-</aside>

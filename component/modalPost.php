@@ -12,7 +12,7 @@ include "method/add_comment.php";
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="container-comment flex-xl-row row">
-                      <span id="modalImageBackground" class="modalImageBackground"></span>
+                      <img id="modalImageBackground" src="" class="modalImageBackground"></img>
                       
                       <div class="modalImageContainer col-xl-6 p-0">
 
@@ -27,7 +27,7 @@ include "method/add_comment.php";
 
 
 
-                        <section class="overflow-y-auto" style="height: 400px">
+                        <section class="overflow-y-auto" style="height: calc(400px - 62.8px)">
                           <div id="post-desc">
 
                           </div>
