@@ -21,9 +21,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 
-// Check if the user already liked the post
-
-
 ?>
 
 <div class="app">

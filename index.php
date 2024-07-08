@@ -14,7 +14,7 @@ if (isset($_POST['login'])) {
     $result = $conn->query($sql);
     
     if ($username == '' || $password == '') {
-        $notify = "Silahkan masukan username dan password";
+        $notify = "| Silahkan masukan username dan password";
     } elseif ($result->num_rows > 0) {
 
         $data = $result->fetch_assoc();
@@ -25,7 +25,7 @@ if (isset($_POST['login'])) {
 
         header("location: dashboard.php");
     } else {
-        $notify = "Akun tidak ditemukan";
+        $notify = "| Username atau password salah";
     }
 }
 ?>
@@ -46,7 +46,7 @@ if (isset($_POST['login'])) {
     <div class="container">
         <div class="row">
             <div class="col-md-11 mt-60 mx-md-auto">
-                <div class="login-box bg-white pl-lg-5 pl-0 ml-5 mr-5">
+                <div class="login-box bg-white pl-lg-5 pl-0 ml-3 mr-3">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-6">
                             <div class="form-wrap bg-white">
@@ -66,7 +66,7 @@ if (isset($_POST['login'])) {
                                                 <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                                             </div>
                                         </div>
-                                        <i><?= $notify ?></i>
+                                        <i class="login-notify"><?= $notify ?></i>
                                         <div class="col-12 mt-30">
                                             <button type="submit" name="login" id="submit" class="btn btn-lg btn-custom btn-dark btn-block">Sign In
                                             </button>
@@ -77,8 +77,8 @@ if (isset($_POST['login'])) {
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="content text-center m-4">
-                                <div class="border-bottom pb-5 mb-5">
+                            <div class="login-title content text-center m-4">
+                                <div class="border-bottom pt-4 pb-3 mb-3 pb-md-5 mb-md-5">
                                     <h3 class="c-black">Baru Pertama kali?</h3>
                                     <a href="register.php" class="btn btn-custom">Yukk gabung</a>
                                 </div>

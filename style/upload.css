@@ -78,12 +78,12 @@ h2 {
 
 	.dropzone {
 		width: 70%;
-		height: auto;
-		max-height: 100px;
+		height: 140px;
+		max-height: 214px;
 	}
 
 	.upload-icon {
-		margin: 35px 2px 2px 2px;
+		margin: 55px 2px 2px 2px;
 	}
 	
 

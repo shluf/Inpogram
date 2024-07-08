@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "method/check_session.php";
 
 include "database.php";
 
@@ -86,9 +87,9 @@ $resultFollowerList = $stmtFollowerList->get_result();
 
 <body>
 
-<?php include("component/leftBar.php") ?>
-<div class="app">
-  <main class="my-gallery-container  d-md-block d-none">
+  <?php include("component/leftBar.php") ?>
+  <div class="app main-app">
+  <main class="my-gallery-container d-md-block d-none">
     <?php include("content/myProfileGallery.php") ?>
   </main>
   <?php include("component/rightBarProfile.php") ?>

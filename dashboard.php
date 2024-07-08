@@ -1,5 +1,6 @@
 <?php 
     session_start();
+    include "method/check_session.php";
 ?>
 
 <!DOCTYPE html>
@@ -16,10 +17,11 @@
 </head>
 
 <body>
-    
-<?php include("component/leftBar.php") ?>
-<?php include("content/feed.php") ?>
-<?php include("component/rightBar.php") ?>
+  <?php include("component/leftBar.php") ?>
+  <div class="main-app">  
+  <?php include("content/feed.php") ?>
+  <?php include("component/rightBar.php") ?>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

@@ -30,7 +30,7 @@ body {
 }
 
 /* Override bootstrap column paddings */
-.tz-gallery .row > div {
+.tz-gallery .row>div {
     padding: 2px;
 }
 
@@ -80,6 +80,10 @@ body {
 
 @media(max-width: 768px) {
     body {
+        padding: 0;
+    }
+
+    .container.gallery-container {
         padding: 0;
     }
 }

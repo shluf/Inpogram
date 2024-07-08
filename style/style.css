@@ -72,6 +72,10 @@ textarea {
     margin-top: 1rem;
 }
 
+.main-app {
+    padding-bottom: 56px;
+}
+
 .nav-container {
     height: 90%;
 }

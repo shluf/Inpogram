@@ -1,5 +1,6 @@
 <?php 
     session_start();
+    include "method/check_session.php";
 ?>
 
 <!DOCTYPE html>

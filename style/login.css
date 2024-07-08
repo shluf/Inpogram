@@ -14,6 +14,33 @@ body{
               box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1);
       border-radius: 10px;
     }
+
+    .login-title h3{
+      font-size: 1.75rem;
+    }
+
+    .login-title h5{
+      font-size: 1.25rem;
+    }
+
+    .login-title a{
+      font-size: 1rem;
+    }
+
+    .login-notify {
+      font-size: 12px;
+      margin-left: 14px;
+    }
+
+    .socials a {
+      text-align: center;
+      padding-top: 5px;
+      color: #c2506e;
+      font-size: 14px;
+      margin-right: 10px;
+      -webkit-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+  }
     
     @media (min-width: 992px) {
       .login-box {
@@ -39,6 +66,24 @@ body{
         margin-top: -40px;
         margin-bottom: -40px;
         padding: 60px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .login-title h3{
+        font-size: 1.2rem;
+      }
+
+      .login-title h5{
+        font-size: 1rem;
+      }
+  
+      .login-title a{
+        font-size: 0.8rem;
+      }
+
+      .socials a {
+        font-size: 0.7rem;
       }
     }
     
@@ -143,12 +188,3 @@ body{
         -webkit-box-shadow: 0 3px 2px 0 rgba(0, 0, 0, 0.12);
         box-shadow: 0 3px 2px 0 rgba(0, 0, 0, 0.12);
     } */
-    .socials a {
-        text-align: center;
-        padding-top: 5px;
-        color: #c2506e;
-        font-size: 16px;
-        margin-right: 10px;
-        -webkit-transition: all 0.3s ease;
-        transition: all 0.3s ease;
-    }
