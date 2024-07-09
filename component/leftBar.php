@@ -1,6 +1,3 @@
-<?php
-$header = $_SERVER['REQUEST_URI'];
-?>
 
 <navbar class="d-none d-md-flex d-lg-flex d-xl-flex">
   <div class="d-flex flex-column flex-shrink-0 justify-content-between bg-body-tertiary rounded nav-container border" style="width: 4.5rem;">
@@ -8,22 +5,22 @@ $header = $_SERVER['REQUEST_URI'];
     <div>
       <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
         <li class="nav-item">
-          <a href="dashboard.php" class="nav-link <?= $header == "/Inpogram/dashboard.php" ? "active" : "" ?> py-3 m-2 border-bottom rounded-circle" aria-current="page" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Home" data-bs-original-title="Home">
+          <a href="dashboard.php" class="nav-link <?= strpos($current_page, 'dashboard.php') !== false ? 'active' : '' ?> py-3 m-2 border-bottom rounded-circle" aria-current="page" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Home" data-bs-original-title="Home">
             <i class="bi bi-house"></i>
           </a>
         </li>
         <li>
-          <a href="explore.php" class="nav-link <?= $header == "/Inpogram/explore.php" ? "active" : "" ?> py-3 m-2 border-bottom rounded-circle" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Dashboard" data-bs-original-title="Dashboard">
+          <a href="explore.php" class="nav-link <?= strpos($current_page, 'explore.php') !== false ? 'active' : '' ?> py-3 m-2 border-bottom rounded-circle" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Dashboard" data-bs-original-title="Dashboard">
             <i class="bi bi-compass"></i>
           </a>
         </li>
         <li>
-          <a href="upload.php" class="nav-link <?= $header == "/Inpogram/upload.php" ? "active" : "" ?> py-3 m-2 border-bottom rounded-circle" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Chat" data-bs-original-title="Chat">
+          <a href="upload.php" class="nav-link <?= strpos($current_page, 'upload.php') !== false ? 'active' : '' ?> py-3 m-2 border-bottom rounded-circle" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Chat" data-bs-original-title="Chat">
             <i class="bi bi-upload"></i>
           </a>
         </li>
         <li>
-          <a href="profile.php" class="nav-link <?= $header == "/Inpogram/profile.php" ? "active" : "" ?> py-3 m-2 border-bottom rounded-circle" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Upload" data-bs-original-title="Upload">
+          <a href="profile.php" class="nav-link <?= strpos($current_page, 'profile.php') !== false ? 'active' : '' ?> py-3 m-2 border-bottom rounded-circle" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Upload" data-bs-original-title="Upload">
             <i class="bi bi-person"></i>
           </a>
         </li>

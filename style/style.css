@@ -112,6 +112,10 @@ div.app {
     gap: 20px;
 }
 
+.form-control {
+    border-radius: 0 0.375rem 0.375rem 0;
+}
+
 .feed-container {
     margin-left: 96px;
     flex: 2;
@@ -379,12 +383,13 @@ aside {
     }
     .modalImageBackground {
         display: inline;
-        position: absolute;
-        width: 100%; 
-        min-height: 400px; 
-        object-fit: cover; 
+        position: absolute; 
+        width: 100%;
+        min-height: 400px;
+        max-height: 400px;
+        object-fit: cover;
         padding: 0;
-        border-radius: 5px 5px 5px 5px;   
+        border-radius: 5px 5px 5px 5px;
     }
     .modalImageContainer {
         z-index: 10;

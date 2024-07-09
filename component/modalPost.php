@@ -31,19 +31,20 @@ include "method/add_comment.php";
                           <div id="post-desc">
 
                           </div>
-                          <div class="container" id="commentContainer">
+                          <div class="container pb-5" id="commentContainer">
                             <!-- Komentar akan ditambahkan di sini -->
+
                           </div>
                         </section>
 
                         <form id="commentForm" method="post" >
                           <div class="commentForm position-absolute d-flex flex-row rounded shadow" style="bottom: 10px; max-width: 545px;">
                             
-        
-                                <input type="hidden" id="postId" name="post_id">
-                                <input type="text" class="form-control" id="comment-post" name="comment_post" placeholder="Tambah komentar..." style="border:0 solid white; background-color: transparent; border-radius:0;">
+                            <input type="hidden" name="reply_comment_id" id="ReplyToCommentId" value="">
+                            <input type="hidden" id="postId" name="post_id">
+                            <input type="text" class="form-control" id="comment-post" name="comment_post" placeholder="Tambah komentar..." style="border:0 solid white; background-color: transparent; border-radius:0;">
 
-                                <button type="submit" class="btn w-25"><i class="bi bi-send"></i></button>
+                            <button type="submit" class="btn w-25"><i class="bi bi-send"></i></button>
 
                             
                           </div>
@@ -58,3 +59,4 @@ include "method/add_comment.php";
           </div>
         </div>
       </div>
+      

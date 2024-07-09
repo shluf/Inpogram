@@ -144,6 +144,9 @@ $result = $stmt->get_result();
           </div>
       <?php
         }
+
+      echo '<p class="text-secondary mt-5"><b>Selamat!!!</b> kamu sudah menamatkan aplikasi ini...</p>';
+
       } else {
         echo "<p>Kosong...</p>";
       }

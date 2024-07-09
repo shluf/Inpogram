@@ -5,7 +5,7 @@ if (isset($_GET['post_id'])) {
     $post_id = $_GET['post_id'];
 
     $sql = "
-        SELECT Comments.Username, Comments.Content, Comments.DATETIME, Users.PhotoProfile AS avatar
+        SELECT Comments.CommentID, Comments.Username, Comments.Content, Comments.DATETIME, Comments.ReplyToCommentID, Users.PhotoProfile AS avatar
         FROM Comments
         JOIN Users ON Comments.Username = Users.Username
         WHERE Comments.PostID = ?
@@ -20,10 +20,12 @@ if (isset($_GET['post_id'])) {
     $comments = [];
     while ($row = $result->fetch_assoc()) {
         $comments[] = [
+            'commentid' => $row['CommentID'],
             'username' => $row['Username'],
             'text' => $row['Content'],
             'datetime' => date("F j, Y, g:i a", strtotime($row['DATETIME'])),
-            'avatar' => $row['avatar'] ?: 'default_avatar.jpg'
+            'avatar' => $row['avatar'] ?: 'default_avatar.jpg',
+            'replyid' => $row['ReplyToCommentID']
         ];
     }
 

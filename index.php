@@ -9,26 +9,30 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM Users WHERE username='$username' AND password='$password'";
-
-    $result = $conn->query($sql);
-    
     if ($username == '' || $password == '') {
         $notify = "| Silahkan masukan username dan password";
-    } elseif ($result->num_rows > 0) {
-
-        $data = $result->fetch_assoc();
-        $_SESSION["username"] = $data["Username"];
-        $_SESSION["fullname"] = $data["NAME"];
-        $_SESSION["profilepict"] = $data["PhotoProfile"];
-        $_SESSION["bio"] = $data["Bio"];
-
-        header("location: dashboard.php");
     } else {
-        $notify = "| Username atau password salah";
+        $sql = "SELECT * FROM Users WHERE username='$username'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $data = $result->fetch_assoc();
+            if (password_verify($password, $data['PASSWORD'])) {
+                $_SESSION["username"] = $data["Username"];
+                $_SESSION["fullname"] = $data["NAME"];
+                $_SESSION["profilepict"] = $data["PhotoProfile"];
+                $_SESSION["bio"] = $data["Bio"];
+                header("location: dashboard.php");
+            } else {
+                $notify = "| Password salah";
+            }
+        } else {
+            $notify = "| Username salah";
+        }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

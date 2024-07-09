@@ -10,7 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['follow'])) {
     $sql = "INSERT INTO FOLLOWS (FollowerUsername, FollowedUsername) VALUES ('$username', '$username_to_follow')";
     if ($conn->query($sql) === TRUE) {
       if ($refresh == "true" ) {
-        header("Location: " . $_SERVER['REQUEST_URI']);
+        // header("Location: " . $_SERVER['REQUEST_URI']);
+        echo "<script>window.location.href = '" . $_SERVER["HTTP_REFERER"] . "'; </script>";
       }
       
     } else {

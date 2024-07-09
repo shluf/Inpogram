@@ -8,11 +8,14 @@ if (isset($_POST['register'])) {
     $fullname = $_POST['fullname'];
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $profileDefault = 'images/profiles/default-profile.png';
 
-    $sql = "INSERT INTO Users (Username, name, Email, Password) VALUES
-        ('$username', '$fullname', '$email', '$password')";
+    $hashed_password = password_hash($password, PASSWORD_ARGON2ID);
+
+    $sql = "INSERT INTO Users (Username, name, Email, Password, PhotoProfile) VALUES
+        ('$username', '$fullname', '$email', '$hashed_password', '$profileDefault')";
     try {
-        if ($conn -> query($sql)) {
+        if ($conn->query($sql)) {
             $notify = "| Akun berhasil dibuat";
         } else {
             $notify = "| Gagal membuat akun";
@@ -22,6 +25,7 @@ if (isset($_POST['register'])) {
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>

@@ -1,19 +1,20 @@
 <?php
 session_start();
 include "method/check_session.php";
-
 include "database.php";
 
-$notification="";
+$notification = "";
 
 // Method untuk mengunggah gambar dan menyimpan data ke database
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $caption = $_POST['caption'];
     $target_dir = "images/posts/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $original_file_name = basename($_FILES["fileToUpload"]["name"]);
+    $imageFileType = strtolower(pathinfo($original_file_name, PATHINFO_EXTENSION));
 
+    $new_file_name = $target_dir . date("YmdHis") . "_" . uniqid() . "." . $imageFileType;
+
+    $uploadOk = 1;
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if ($check) {
         $uploadOk = 1;
@@ -27,37 +28,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadOk = 0;
     }
 
-    if (
-        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif"
-    ) {
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
         $notification = "*Hanya JPG, JPEG, PNG & GIF yang diizinkan.";
         $uploadOk = 0;
     }
 
-    // Jika $uploadOk
     if ($uploadOk == 1) {
-        $uploaded = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-        
-        if ($uploaded) {
+        $uploaded = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $new_file_name);
 
+        if ($uploaded) {
             $logged_in_user = $_SESSION['username'];
             $sql = "INSERT INTO Posts (Username, Image, DESCRIPTION, DATETIME) VALUES (?, ?, ?, NOW())";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sss", $logged_in_user, $target_file, $caption);
+            $stmt->bind_param("sss", $logged_in_user, $new_file_name, $caption);
             if ($stmt->execute()) {
-                $notification = "*File " . basename($_FILES["fileToUpload"]["name"]) . " telah terunggah.";
+                $notification = "*Postingan telah berhasil terunggah.";
             } else {
                 $notification = "*Ada kesalahan saat menyimpan data.";
             }
             $stmt->close();
-            
         } else {
             $notification = "*Ada kesalahan saat mengunggah file.";
         }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
