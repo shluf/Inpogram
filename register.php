@@ -10,9 +10,9 @@ if (isset($_POST['register'])) {
     $password = $_POST['password'];
     $profileDefault = 'images/profiles/default-profile.png';
 
-    $hashed_password = password_hash($password, PASSWORD_ARGON2ID);
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO Users (Username, name, Email, Password, PhotoProfile) VALUES
+    $sql = "INSERT INTO Users (Username, NAME, Email, Password, PhotoProfile) VALUES
         ('$username', '$fullname', '$email', '$hashed_password', '$profileDefault')";
     try {
         if ($conn->query($sql)) {

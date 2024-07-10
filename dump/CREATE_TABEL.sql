@@ -74,6 +74,31 @@ CREATE TABLE Notifications (
     FOREIGN KEY (Username) REFERENCES Users(Username)
 );
 
+CREATE TABLE rooms (
+    RoomID INT AUTO_INCREMENT PRIMARY KEY,
+    RoomName VARCHAR(255) NOT NULL,
+    VideoPath VARCHAR(255) NOT NULL,
+    CurrentTime INT DEFAULT 0
+);
+
+CREATE TABLE commentsroom (
+    CommentID INT AUTO_INCREMENT PRIMARY KEY,
+    RoomID INT,
+    Username INT,
+    Message TEXT,
+    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (RoomID) REFERENCES rooms(RoomID)
+);
+
+
+-- tidak dipakai
+
+CREATE TABLE videos (
+    VideoID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Url VARCHAR(255) NOT NULL,
+    CurrentTime INT DEFAULT 0
+);
 
 -- Insert data
 

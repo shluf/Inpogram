@@ -13,7 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['saveProfile'])) {
   $newPhoto = $_SESSION['profilepict'];
 
   if (isset($_FILES['profilePhoto']) && $_FILES['profilePhoto']['error'] == UPLOAD_ERR_OK) {
-      $newPhoto = 'images/profiles/' . basename($_FILES['profilePhoto']['name']);
+      $target_dir = 'images/profiles/';
+      $newPhoto = $target_dir . date("YmdHis") . "_" . uniqid() . "_" . basename($_FILES['profilePhoto']['name']);
+      
       move_uploaded_file($_FILES['profilePhoto']['tmp_name'], $newPhoto);
       $_SESSION['profilepict'] = $newPhoto;
   }
