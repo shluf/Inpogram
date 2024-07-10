@@ -1,5 +1,5 @@
 <?php
-$room_id = $_GET['id'] ?? null; 
+$room_id = $_GET['id'] ?? null;
 if (!$room_id) {
     exit('Room ID not provided.');
 }
@@ -13,14 +13,20 @@ $room = $resultRooms->fetch_assoc();
 if (!$room) {
     exit('Room not found.');
 }
+
+
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Room</title>
+    <link rel="icon" type="image/png" href="../images/icon.png">
+    <title>Inpogram - <?php echo htmlspecialchars($room['RoomName']); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,23 +34,28 @@ if (!$room) {
             margin: 0 auto;
             padding: 20px;
         }
+
         #videoPlayer {
             width: 100%;
             max-width: 800px;
         }
+
         #adminControls {
             display: none;
             margin-top: 10px;
         }
+
         #timeRange {
             width: 100%;
             margin-top: 10px;
         }
+
         .time-display {
             display: flex;
             justify-content: space-between;
             margin-top: 5px;
         }
+
         input[type="range"] {
             -webkit-appearance: none;
             appearance: none;
@@ -56,9 +67,11 @@ if (!$room) {
             opacity: 0.7;
             transition: opacity .2s;
         }
+
         input[type="range"]:hover {
             opacity: 1;
         }
+
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -68,6 +81,7 @@ if (!$room) {
             background: #4CAF50;
             cursor: pointer;
         }
+
         input[type="range"]::-moz-range-thumb {
             width: 25px;
             height: 25px;
@@ -77,10 +91,31 @@ if (!$room) {
         }
     </style>
 </head>
+
 <body>
     <h1><?php echo htmlspecialchars($room['RoomName']); ?></h1>
+
+    <?php
+
+    $stmt = $conn->prepare("SELECT * FROM Videos");
+    $stmt->execute();
+    $videos = $stmt->get_result();
+
+    echo '<div class="video-item">';
+    echo '<label for="videoPath">Pilih video:</label>';
+    echo '<select name="videoPath" id="videoPath">';
+    foreach ($videos as $video) {
+        echo '<option value="' . htmlspecialchars($video['Video']) . '">' . htmlspecialchars($video['Video']) . '</option>';
+    }
+    echo '</select>';
+    echo '<h3>' . htmlspecialchars($video['Uploader']) . '</h3>';
+    echo '<p>' . htmlspecialchars($video['DESCRIPTION']) . '</p>';
+    echo '<p>' . $video['DATETIME'] . '</p>';
+    echo '</div>';
+    ?>
+
     <video id="videoPlayer" src="<?php echo htmlspecialchars($room['VideoPath']); ?>"></video>
-    
+
     <div id="adminControls">
         <button onclick="playVideo()">Play</button>
         <button onclick="pauseVideo()">Pause</button>
@@ -90,7 +125,7 @@ if (!$room) {
             <span id="duration">0:00</span>
         </div>
     </div>
-    
+
     <div id="comments"></div>
     <input type="text" id="commentInput" placeholder="Enter your comment">
     <button onclick="sendComment()">Send</button>
@@ -136,18 +171,28 @@ if (!$room) {
 
         function sendComment() {
             const message = commentInput.value;
-            socket.emit('comment', { room_id: <?php echo $room_id; ?>, message: message });
+            socket.emit('comment', {
+                room_id: <?php echo $room_id; ?>,
+                message: message
+            });
             commentInput.value = '';
         }
 
         function playVideo() {
             videoPlayer.play();
-            socket.emit('video_control', { room_id: <?php echo $room_id; ?>, action: 'play' });
+            socket.emit('video_control', {
+                room_id: <?php echo $room_id; ?>,
+                action: 'play'
+            });
+            updateLiveNow(<?php echo $room_id; ?>, 1)
         }
 
         function pauseVideo() {
             videoPlayer.pause();
-            socket.emit('video_control', { room_id: <?php echo $room_id; ?>, action: 'pause' });
+            socket.emit('video_control', {
+                room_id: <?php echo $room_id; ?>,
+                action: 'pause'
+            });
         }
 
         function formatTime(seconds) {
@@ -160,6 +205,9 @@ if (!$room) {
             currentTimeSpan.textContent = formatTime(videoPlayer.currentTime);
             durationSpan.textContent = formatTime(videoPlayer.duration);
             timeRange.value = (videoPlayer.currentTime / videoPlayer.duration) * 100;
+            if (timeRange.value >= 100) {
+                updateLiveNow(<?php echo $room_id; ?>, 0)
+            }
         }
 
         videoPlayer.addEventListener('loadedmetadata', () => {
@@ -170,7 +218,10 @@ if (!$room) {
         videoPlayer.addEventListener('timeupdate', () => {
             if (isAdmin && !isSeekingByAdmin) {
                 updateTimeDisplay();
-                socket.emit('update_time', { room_id: <?php echo $room_id; ?>, time: videoPlayer.currentTime });
+                socket.emit('update_time', {
+                    room_id: <?php echo $room_id; ?>,
+                    time: videoPlayer.currentTime
+                });
             }
         });
 
@@ -187,13 +238,44 @@ if (!$room) {
             timeRange.addEventListener('change', () => {
                 isSeekingByAdmin = false;
                 const seekTime = (timeRange.value / 100) * videoPlayer.duration;
-                socket.emit('update_time', { room_id: <?php echo $room_id; ?>, time: seekTime });
+                socket.emit('update_time', {
+                    room_id: <?php echo $room_id; ?>,
+                    time: seekTime
+                });
             });
 
             window.addEventListener('resize', updateTimeDisplay);
         } else {
             videoPlayer.controls = false;
         }
+
+
+        function updateLiveNow(room_id, live_now) {
+
+            const data = new URLSearchParams();
+            data.append('room_id', room_id);
+            data.append('live_now', live_now);
+
+            fetch('method/update_live_now.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: data.toString(),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('LiveNow updated successfully');
+                    } else {
+                        console.error('Failed to update LiveNow');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating LiveNow:', error);
+                });
+        }
     </script>
 </body>
+
 </html>

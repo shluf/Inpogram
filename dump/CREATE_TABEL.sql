@@ -92,6 +92,15 @@ CREATE TABLE CommentsRoom (
     FOREIGN KEY (RoomID) REFERENCES rooms(RoomID)
 );
 
+CREATE TABLE Videos (
+    VideoID INT AUTO_INCREMENT PRIMARY KEY,
+    Uploader VARCHAR(255),
+    Video VARCHAR(255),
+    DESCRIPTION TEXT,
+    DATETIME DATETIME,
+    FOREIGN KEY (Uploader) REFERENCES Users(Username)
+);
+
 -- Tambahkan data dummy ke tabel rooms
 INSERT INTO rooms (RoomName, VideoPath) VALUES
 ('Room A', 'videos/roomA.mp4'),

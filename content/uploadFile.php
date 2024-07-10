@@ -43,6 +43,7 @@
             dropzone.style.opacity = 0;
             title.style.opacity = 0;
             previewContainer.style.backgroundImage = `url(${reader.result})`;
+            previewContainer.style.backgroundSize = 'cover';
         }, false);
 
         if (file) {
