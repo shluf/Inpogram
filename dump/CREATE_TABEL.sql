@@ -36,7 +36,7 @@ CREATE TABLE StatusUpdate (
     FOREIGN KEY (Username) REFERENCES Users(Username)
 );
 
-CREATE TABLE FOLLOWS (
+CREATE TABLE Follows (
     FollowID INT AUTO_INCREMENT PRIMARY KEY,
     FollowerUsername VARCHAR(50) NOT NULL,
     FollowedUsername VARCHAR(50) NOT NULL,
@@ -50,6 +50,7 @@ CREATE TABLE Comments (
     Username VARCHAR(50) NOT NULL,
     PostID INT NOT NULL,
     Content TEXT,
+    Likes INT DEFAULT 0,
     DATETIME DATETIME,
     ReplyToCommentID INT,
     FOREIGN KEY (Username) REFERENCES Users(Username),
@@ -74,14 +75,15 @@ CREATE TABLE Notifications (
     FOREIGN KEY (Username) REFERENCES Users(Username)
 );
 
-CREATE TABLE rooms (
+CREATE TABLE Rooms (
     RoomID INT AUTO_INCREMENT PRIMARY KEY,
     RoomName VARCHAR(255) NOT NULL,
+    Description VARCHAR(255),
     VideoPath VARCHAR(255) NOT NULL,
     CurrentTime INT DEFAULT 0
 );
 
-CREATE TABLE commentsroom (
+CREATE TABLE CommentsRoom (
     CommentID INT AUTO_INCREMENT PRIMARY KEY,
     RoomID INT,
     Username INT,
@@ -89,6 +91,18 @@ CREATE TABLE commentsroom (
     Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (RoomID) REFERENCES rooms(RoomID)
 );
+
+-- Tambahkan data dummy ke tabel rooms
+INSERT INTO rooms (RoomName, VideoPath) VALUES
+('Room A', 'videos/roomA.mp4'),
+('Room B', 'videos/roomB.mp4'),
+('Room C', 'videos/roomC.mp4');
+
+-- Tambahkan data dummy ke tabel commentsroom
+INSERT INTO commentsroom (RoomID, Username, Message) VALUES
+(1, 1, 'Ini adalah komentar untuk Room A'),
+(2, 2, 'Ini adalah komentar untuk Room B'),
+(3, 3, 'Ini adalah komentar untuk Room C');
 
 
 -- tidak dipakai
