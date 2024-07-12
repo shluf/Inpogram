@@ -1,6 +1,10 @@
 <?php
 session_start();
-include "../method/check_session.php";
+if (!isset($_SESSION['username'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
 include "../database.php";
 
 
@@ -29,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadOk = 1;
     }
 
-    if ($videoFileType != "mp4") {
+    if ($videoFileType != "mp4" && $videoFileType != "mp4") {
         $notification = "*Hanya mp4 yang diizinkan.";
         $uploadOk = 0;
     }

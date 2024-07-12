@@ -14,14 +14,16 @@ app.use(cors());
 io.on('connection', (socket) => {
     socket.on('join_room', (room_id) => {
         socket.join(room_id);
+        console.log('Seseorang telah masuk ke dalam room ' + room_id);
     });
-
+    
     socket.on('update_time', (data) => {
         io.to(data.room_id).emit('update_time', data.time);
     });
-
+    
     socket.on('comment', (data) => {
         io.to(data.room_id).emit('new_comment', data);
+        console.log('Seseorang mengirim pesan: ' + data.message);
     });
 
     socket.on('video_control', (data) => {

@@ -103,7 +103,7 @@ if (!$room) {
 
     echo '<div class="video-item">';
     echo '<label for="videoPath">Pilih video:</label>';
-    echo '<select name="videoPath" id="videoPath">';
+    echo '<select name="videoPath" id="videoPath" onchange="updateVideo(this.value)">';
     foreach ($videos as $video) {
         echo '<option value="' . htmlspecialchars($video['Video']) . '">' . htmlspecialchars($video['Video']) . '</option>';
     }
@@ -132,7 +132,11 @@ if (!$room) {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
     <script>
-        const socket = io('http://localhost:3000');
+        const socket = io('https://x5g9hbb7pxzk.share.zrok.io'
+        // , {
+        //     withCredentials: true
+        // }
+    );
         const videoPlayer = document.getElementById('videoPlayer');
         const comments = document.getElementById('comments');
         const commentInput = document.getElementById('commentInput');
@@ -245,6 +249,10 @@ if (!$room) {
             });
 
             window.addEventListener('resize', updateTimeDisplay);
+
+            function UpdateVideo() {
+
+            }
         } else {
             videoPlayer.controls = false;
         }
