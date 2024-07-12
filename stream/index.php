@@ -12,6 +12,7 @@ $notification = "";
 
 // Method untuk mengunggah video dan menyimpan data ke database
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = $_POST['title'];
     $description = $_POST['description'];
     $target_dir = "videos/";
     $original_file_name = basename($_FILES["fileToUpload"]["name"]);
@@ -43,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($uploaded) {
             $logged_in_user = $_SESSION['username'];
-            $sql = "INSERT INTO Videos (Uploader, Video, DESCRIPTION, DATETIME) VALUES (?, ?, ?, NOW())";
+            $sql = "INSERT INTO Videos (Title, Uploader, Video, DESCRIPTION, DATETIME) VALUES (?, ?, ?, NOW())";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sss", $logged_in_user, $new_file_name, $description);
+            $stmt->bind_param("ssss", $title, $logged_in_user, $new_file_name, $description);
             if ($stmt->execute()) {
                 $notification = "*Video telah berhasil terunggah.";
             } else {
@@ -90,6 +91,11 @@ while ($row = $rooms->fetch_assoc()) {
 <form action="" method="post" enctype="multipart/form-data">
     <label for="fileToUpload">Pilih video untuk diunggah:</label>
     <input type="file" name="fileToUpload" id="fileToUpload">
+    <br>
+    <br>
+    <label for="title">Judul:</label>
+    <input type="text" name="title" id="title">
+    <br>
     <br>
     <label for="description">Deskripsi:</label>
     <textarea name="description" id="description" rows="4" cols="50"></textarea>

@@ -105,7 +105,7 @@ if (!$room) {
     echo '<label for="videoPath">Pilih video:</label>';
     echo '<select name="videoPath" id="videoPath" onchange="updateVideo(this.value)">';
     foreach ($videos as $video) {
-        echo '<option value="' . htmlspecialchars($video['Video']) . '">' . htmlspecialchars($video['Video']) . '</option>';
+        echo '<option value="' . htmlspecialchars($video['Video']) . '">' . htmlspecialchars($video['Title']) . '</option>';
     }
     echo '</select>';
     echo '<h3>' . htmlspecialchars($video['Uploader']) . '</h3>';
@@ -133,10 +133,10 @@ if (!$room) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
     <script>
         const socket = io('https://x5g9hbb7pxzk.share.zrok.io'
-        // , {
-        //     withCredentials: true
-        // }
-    );
+            // , {
+            //     withCredentials: true
+            // }
+        );
         const videoPlayer = document.getElementById('videoPlayer');
         const comments = document.getElementById('comments');
         const commentInput = document.getElementById('commentInput');
@@ -250,8 +250,25 @@ if (!$room) {
 
             window.addEventListener('resize', updateTimeDisplay);
 
-            function UpdateVideo() {
 
+            function updateVideo(videoPath) {
+                const data = {};
+                data.append('new_video_path', videoPath);
+
+                fetch('method/update_video_src.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: data.toString(),
+                })
+                .then(response => response.json())
+                .catch(error => {
+                    console.error('Error updating videoPath:', error);
+                });
+
+                const videoPlayer = document.getElementById('videoPlayer');
+                videoPlayer.src = videoPath;
             }
         } else {
             videoPlayer.controls = false;
