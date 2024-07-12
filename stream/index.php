@@ -34,17 +34,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadOk = 1;
     }
 
-    if ($videoFileType != "mp4" && $videoFileType != "mp4") {
+    if ($videoFileType != "mp4" && $videoFileType != "webm" && $videoFileType != "mkv") {
         $notification = "*Hanya mp4 yang diizinkan.";
         $uploadOk = 0;
     }
 
     if ($uploadOk == 1) {
+		$notification = 'Uploading...' . $original_file_name;
         $uploaded = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $new_file_name);
 
         if ($uploaded) {
+			$notification = $original_file_name . ' uploaded';
             $logged_in_user = $_SESSION['username'];
-            $sql = "INSERT INTO Videos (Title, Uploader, Video, DESCRIPTION, DATETIME) VALUES (?, ?, ?, NOW())";
+            $sql = "INSERT INTO Videos (Title, Uploader, Video, DESCRIPTION, DATETIME) VALUES (?, ?, ?, ?, NOW())";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ssss", $title, $logged_in_user, $new_file_name, $description);
             if ($stmt->execute()) {
@@ -69,16 +71,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Inpogram - Stream</title>
 </head>
 <body>
-<h1>Style</h1>
+<h1>Stream</h1>
 <?php
 
-$stmt = $conn->prepare("SELECT * FROM rooms");
+$stmt = $conn->prepare("SELECT * FROM Rooms");
 $stmt->execute();
 $rooms = $stmt->get_result();
 
 while ($row = $rooms->fetch_assoc()) {
         echo '<p>Room Name: ' . htmlspecialchars($row['RoomName'], ENT_QUOTES, 'UTF-8') . '</p>';
-        echo '<p>Description: ' . htmlspecialchars($row['Descriptions'], ENT_QUOTES, 'UTF-8') . '</p>';
+        echo '<p>Description: ' . htmlspecialchars($row['Description'], ENT_QUOTES, 'UTF-8') . '</p>';
         if ($row['LiveNow']) {
             echo '<p>Sedang Tayang</p>';
         }
@@ -88,7 +90,7 @@ while ($row = $rooms->fetch_assoc()) {
 
 ?>
 
-<form action="" method="post" enctype="multipart/form-data">
+<form action="index.php" method="post" enctype="multipart/form-data">
     <label for="fileToUpload">Pilih video untuk diunggah:</label>
     <input type="file" name="fileToUpload" id="fileToUpload">
     <br>
@@ -99,6 +101,8 @@ while ($row = $rooms->fetch_assoc()) {
     <br>
     <label for="description">Deskripsi:</label>
     <textarea name="description" id="description" rows="4" cols="50"></textarea>
+    <br>
+    <p><?= $notification ?></p>
     <br>
     <input type="submit" value="Unggah Video" name="submit">
 </form>
