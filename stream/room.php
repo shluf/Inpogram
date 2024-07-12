@@ -6,7 +6,7 @@ if (!$room_id) {
 
 include "../database.php";
 
-$stmt = $conn->prepare("SELECT * FROM rooms WHERE RoomID = ?");
+$stmt = $conn->prepare("SELECT * FROM Rooms WHERE RoomID = ?");
 $stmt->execute([$room_id]);
 $resultRooms = $stmt->get_result();
 $room = $resultRooms->fetch_assoc();
@@ -132,7 +132,7 @@ if (!$room) {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
     <script>
-        const socket = io('https://x5g9hbb7pxzk.share.zrok.io'
+        const socket = io('https://socketinpogram.share.zrok.io'
             // , {
             //     withCredentials: true
             // }
@@ -252,7 +252,7 @@ if (!$room) {
 
 
             function updateVideo(videoPath) {
-                const data = {};
+                const data = new URLSearchParams();
                 data.append('new_video_path', videoPath);
 
                 fetch('method/update_video_src.php', {
@@ -263,12 +263,19 @@ if (!$room) {
                     body: data.toString(),
                 })
                 .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Video updated successfully');
+                    } else {
+                        console.error('Failed to update Video');
+                    }
+                })
                 .catch(error => {
                     console.error('Error updating videoPath:', error);
                 });
 
-                const videoPlayer = document.getElementById('videoPlayer');
-                videoPlayer.src = videoPath;
+//                const videoPlayer = document.getElementById('videoPlayer');
+//                videoPlayer.src = videoPath;
             }
         } else {
             videoPlayer.controls = false;
