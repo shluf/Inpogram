@@ -3,6 +3,10 @@
     --bs-link-hover-color: #c2506e;
   }
 
+.nav-link.disabled, .nav-link:disabled {
+    color: #c2506e;
+}
+
 .nav-pills {
     --bs-nav-pills-link-active-bg: #c2506e;
   }

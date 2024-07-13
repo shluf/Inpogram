@@ -1,23 +1,44 @@
 <?php
-$room_id = $_GET['id'] ?? null;
-if (!$room_id) {
-    exit('Room ID not provided.');
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: ../index.php");
+    exit();
 }
+$current_page = basename($_SERVER['PHP_SELF']);
+$login_in_user = $_SESSION['username'];
 
 include "../database.php";
 
-$stmt = $conn->prepare("SELECT * FROM Rooms WHERE RoomID = ?");
-$stmt->execute([$room_id]);
-$resultRooms = $stmt->get_result();
-$room = $resultRooms->fetch_assoc();
-if (!$room) {
-    exit('Room not found.');
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+
+    $stmt = $conn->prepare("SELECT * FROM Rooms");
+    $stmt->execute();
+    $resultRooms = $stmt->get_result();
+    $room = null;
+    $isAdmin = false;
+
+    while ($row = $resultRooms->fetch_assoc()) {
+        if ($id == $row['RoomCode']) {
+            $room = $row;
+            if ($room['Admin'] == $login_in_user) {
+                $isAdmin = true;
+            }
+            break;
+        }
+    }
+
+    $room_id = $room['RoomID'];
+
+    if (!$room) {
+        exit('Room not found.');
+    }
+} else {
+    exit('Room ID not provided.');
 }
 
-
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,9 +47,12 @@ if (!$room) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../images/icon.png">
-    <title>Inpogram - <?php echo htmlspecialchars($room['RoomName']); ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../style/style.css" />
+    <title>Inpogram <?php echo htmlspecialchars($room['RoomName']); ?></title>
     <style>
-        body {
+        main {
             font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 0 auto;
@@ -93,46 +117,82 @@ if (!$room) {
 </head>
 
 <body>
-    <h1><?php echo htmlspecialchars($room['RoomName']); ?></h1>
+    <?php include("../component/leftBarStream.php") ?>
+    <main>
+        <h1><?php echo htmlspecialchars($room['RoomName']); ?></h1>
 
-    <?php
+        <?php
 
-    $stmt = $conn->prepare("SELECT * FROM Videos");
-    $stmt->execute();
-    $videos = $stmt->get_result();
+        $stmt = $conn->prepare("SELECT * FROM Videos");
+        $stmt->execute();
+        $videos = $stmt->get_result();
+        // $videos = $videos->fetch_assoc();
+        $roomVideo = null;
+        foreach ($videos as $video) {
+            if ($video['VideoID'] == $room['VideoID']) {
+                $roomVideo = $video;
+            }
+        }
 
-    echo '<div class="video-item">';
-    echo '<label for="videoPath">Pilih video:</label>';
-    echo '<select name="videoPath" id="videoPath" onchange="updateVideo(this.value)">';
-    foreach ($videos as $video) {
-        echo '<option value="' . htmlspecialchars($video['Video']) . '">' . htmlspecialchars($video['Title']) . '</option>';
-    }
-    echo '</select>';
-    echo '<h3>' . htmlspecialchars($video['Uploader']) . '</h3>';
-    echo '<p>' . htmlspecialchars($video['DESCRIPTION']) . '</p>';
-    echo '<p>' . $video['DATETIME'] . '</p>';
-    echo '</div>';
-    ?>
 
-    <video id="videoPlayer" src="<?php echo htmlspecialchars($room['VideoPath']); ?>"></video>
 
-    <div id="adminControls">
-        <button onclick="playVideo()">Play</button>
-        <button onclick="pauseVideo()">Pause</button>
-        <input type="range" id="timeRange" min="0" max="100" value="0">
-        <div class="time-display">
-            <span id="currentTime">0:00</span>
-            <span id="duration">0:00</span>
+        
+        // $stmt = $conn->prepare("SELECT * FROM Videos");
+        // $stmt->execute();
+        // $videos = $stmt->get_result();
+
+        // echo '<div class="video-item">';
+        if ($isAdmin) {
+            echo '<label for="videoPath">Pilih video:</label>';
+            echo '<select name="videoPath" id="videoPath" onchange="changeVideo(this.value)">';
+            foreach ($videos as $video) {
+                $selected = ($video['VideoID'] == $room['VideoID']) ? 'selected' : '';
+                echo '<option value="' . htmlspecialchars($video['VideoID']) . '" ' . $selected . '>' . htmlspecialchars($video['Title']) . '</option>';
+            }
+            echo '</select>';
+        }
+
+        // echo '<h3>' . htmlspecialchars($video['Uploader']) . '</h3>';
+        // echo '<p>' . htmlspecialchars($video['DESCRIPTION']) . '</p>';
+        // echo '<p>' . $video['DATETIME'] . '</p>';
+        // echo '</div>';
+        ?>
+
+        <video id="videoPlayer" src="<?php echo htmlspecialchars($roomVideo['VideoPath']); ?>"></video>
+
+        <div id="adminControls">
+            <button onclick="playVideo()">Play</button>
+            <button onclick="pauseVideo()">Pause</button>
+            <input type="range" id="timeRange" min="0" max="100" value="0">
+            <div class="time-display">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
         </div>
-    </div>
 
-    <div id="comments"></div>
-    <input type="text" id="commentInput" placeholder="Enter your comment">
-    <button onclick="sendComment()">Send</button>
+        <div class="video-item">
+        <div class="card">
+            <div class="card-body">
+                <img class="card-title" src="<?php echo htmlspecialchars($roomVideo['Thumbnail']); ?>"></img>
+                <h5 class="card-title"><?php echo htmlspecialchars($roomVideo['Title']); ?></h5>
+                <p class="card-text">Uploader: <?php echo htmlspecialchars($roomVideo['Uploader']); ?></p>
+                <p class="card-text">Description: <?php echo htmlspecialchars($roomVideo['DESCRIPTION']); ?></p>
+                <p class="card-text">Uploaded on: <?php echo $roomVideo['DATETIME']; ?></p>
+            </div>
+        </div>
+
+        </div>
+
+        <aside>
+        <div id="comments"></div>
+        <input type="text" id="commentInput" placeholder="Enter your comment">
+        <button onclick="sendComment()">Send</button>
+        </aside>
+    </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
     <script>
-        const socket = io('https://socketinpogram.share.zrok.io'
+        const socket = io('http://localhost:3000'
             // , {
             //     withCredentials: true
             // }
@@ -145,7 +205,7 @@ if (!$room) {
         const currentTimeSpan = document.getElementById('currentTime');
         const durationSpan = document.getElementById('duration');
 
-        let isAdmin = <?php echo isset($_GET['admin']) ? 'true' : 'false'; ?>;
+        let isAdmin = <?php echo $isAdmin ? 'true' : 'false'; ?>;
         let isSeekingByAdmin = false;
 
         socket.on('connect', () => {
@@ -251,31 +311,31 @@ if (!$room) {
             window.addEventListener('resize', updateTimeDisplay);
 
 
-            function updateVideo(videoPath) {
+            function changeVideo(videoID) {
                 const data = new URLSearchParams();
-                data.append('new_video_path', videoPath);
+                data.append('id', <?php echo $room_id; ?>);
+                data.append('new_video_id', videoID);
 
                 fetch('method/update_video_src.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: data.toString(),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log('Video updated successfully');
-                    } else {
-                        console.error('Failed to update Video');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error updating videoPath:', error);
-                });
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: data.toString(),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                            console.log('Video updated successfully');
+                        } else {
+                            console.error('Failed to update Video');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error updating videoPath:', error);
+                    });
 
-//                const videoPlayer = document.getElementById('videoPlayer');
-//                videoPlayer.src = videoPath;
             }
         } else {
             videoPlayer.controls = false;

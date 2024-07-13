@@ -1,7 +1,11 @@
 
 <navbar class="d-none d-md-flex d-lg-flex d-xl-flex">
   <div class="d-flex flex-column flex-shrink-0 justify-content-between bg-body-tertiary rounded nav-container border" style="width: 4.5rem;">
-    <div></div>
+    <div class="nav nav-pills nav-flush flex-column text-center">     
+      <a href="stream/" class="nav-link  py-3 m-2 border-bottom rounded-circle" aria-current="page" data-bs-togle="tooltip" data-bs-placement="right" aria-label="Home" data-bs-original-title="Home">
+        <i class="bi bi-camera-reels-fill"></i>
+      </a>
+    </div>
     <div>
       <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
         <li class="nav-item">

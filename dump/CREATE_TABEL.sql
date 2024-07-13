@@ -78,51 +78,37 @@ CREATE TABLE Notifications (
 CREATE TABLE Rooms (
     RoomID INT AUTO_INCREMENT PRIMARY KEY,
     RoomName VARCHAR(255) NOT NULL,
+    RoomCode VARCHAR(255) NOT NULL,
+    Admin VARCHAR(50) NOT NULL,
     Description VARCHAR(255),
-    VideoPath VARCHAR(255) NOT NULL,
-    CurrentTime INT DEFAULT 0
+    VideoID INT NOT NULL,
+    LiveNow TINYINT DEFAULT 0,
+    Datetime DATETIME,
+    FOREIGN KEY (Admin) REFERENCES Users(Username),
+    FOREIGN KEY (VideoID) REFERENCES Videos(VideoID)
 );
 
 CREATE TABLE CommentsRoom (
     CommentID INT AUTO_INCREMENT PRIMARY KEY,
     RoomID INT,
-    Username INT,
+    Username VARCHAR(50) NOT NULL,
     Message TEXT,
     Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Username) REFERENCES Users(Username),
     FOREIGN KEY (RoomID) REFERENCES rooms(RoomID)
 );
 
 CREATE TABLE Videos (
     VideoID INT AUTO_INCREMENT PRIMARY KEY,
     Title VARCHAR(255) NOT NULL,
+    Thumbnail VARCHAR(255) NOT NULL,
     Uploader VARCHAR(255) NOT NULL,
-    Video VARCHAR(255) NOT NULL,
+    VideoPath VARCHAR(255) NOT NULL,
     DESCRIPTION TEXT,
     DATETIME DATETIME,
     FOREIGN KEY (Uploader) REFERENCES Users(Username)
 );
 
--- Tambahkan data dummy ke tabel rooms
-INSERT INTO rooms (RoomName, VideoPath) VALUES
-('Room A', 'videos/roomA.mp4'),
-('Room B', 'videos/roomB.mp4'),
-('Room C', 'videos/roomC.mp4');
-
--- Tambahkan data dummy ke tabel commentsroom
-INSERT INTO commentsroom (RoomID, Username, Message) VALUES
-(1, 1, 'Ini adalah komentar untuk Room A'),
-(2, 2, 'Ini adalah komentar untuk Room B'),
-(3, 3, 'Ini adalah komentar untuk Room C');
-
-
--- tidak dipakai
-
-CREATE TABLE videos (
-    VideoID INT AUTO_INCREMENT PRIMARY KEY,
-    Title VARCHAR(255) NOT NULL,
-    Url VARCHAR(255) NOT NULL,
-    CurrentTime INT DEFAULT 0
-);
 
 -- Insert data
 

@@ -7,12 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $room_id = $_POST['room_id'];
     $LiveNow = $_POST['live_now'];
     
-    $stmt = $conn->prepare("UPDATE rooms SET LiveNow = ? WHERE RoomID = ?");
+    $stmt = $conn->prepare("UPDATE Rooms SET LiveNow = ? WHERE RoomID = ?");
     $stmt->execute([$LiveNow, $room_id]);
     
-    // echo json_encode(['success' => true]);
+    echo json_encode(['success' => true]);
     } else {
-        echo 'Gagal';
+        echo json_encode(['success' => false]);
     }
 }
 
