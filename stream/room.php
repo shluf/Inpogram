@@ -50,7 +50,7 @@ if (isset($_GET['id'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../style/style.css" />
-    <title>Inpogram <?php echo htmlspecialchars($room['RoomName']); ?></title>
+    <title>Inpogram - <?php echo htmlspecialchars($room['RoomName']); ?></title>
     <style>
         main {
             font-family: Arial, sans-serif;
@@ -135,13 +135,6 @@ if (isset($_GET['id'])) {
         }
 
 
-
-        
-        // $stmt = $conn->prepare("SELECT * FROM Videos");
-        // $stmt->execute();
-        // $videos = $stmt->get_result();
-
-        // echo '<div class="video-item">';
         if ($isAdmin) {
             echo '<label for="videoPath">Pilih video:</label>';
             echo '<select name="videoPath" id="videoPath" onchange="changeVideo(this.value)">';
@@ -151,11 +144,7 @@ if (isset($_GET['id'])) {
             }
             echo '</select>';
         }
-
-        // echo '<h3>' . htmlspecialchars($video['Uploader']) . '</h3>';
-        // echo '<p>' . htmlspecialchars($video['DESCRIPTION']) . '</p>';
-        // echo '<p>' . $video['DATETIME'] . '</p>';
-        // echo '</div>';
+        
         ?>
 
         <video id="videoPlayer" src="<?php echo htmlspecialchars($roomVideo['VideoPath']); ?>"></video>
@@ -173,7 +162,7 @@ if (isset($_GET['id'])) {
         <div class="video-item">
         <div class="card">
             <div class="card-body">
-                <img class="card-title" src="<?php echo htmlspecialchars($roomVideo['Thumbnail']); ?>"></img>
+                <img style="max-width: 100px; max-height: 100px; object-fit: cover;" class="card-title" src="<?php echo htmlspecialchars($roomVideo['Thumbnail']); ?>"></img>
                 <h5 class="card-title"><?php echo htmlspecialchars($roomVideo['Title']); ?></h5>
                 <p class="card-text">Uploader: <?php echo htmlspecialchars($roomVideo['Uploader']); ?></p>
                 <p class="card-text">Description: <?php echo htmlspecialchars($roomVideo['DESCRIPTION']); ?></p>
@@ -192,7 +181,7 @@ if (isset($_GET['id'])) {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
     <script>
-        const socket = io('http://localhost:3000'
+        const socket = io('https://socketinpogram.share.zrok.io'
             // , {
             //     withCredentials: true
             // }
@@ -358,7 +347,7 @@ if (isset($_GET['id'])) {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        console.log('LiveNow updated successfully');
+                        console.log('LiveNow updated successfully : ', (live_now ? 'live' : 'not live'));
                     } else {
                         console.error('Failed to update LiveNow');
                     }

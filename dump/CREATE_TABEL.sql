@@ -75,12 +75,23 @@ CREATE TABLE Notifications (
     FOREIGN KEY (Username) REFERENCES Users(Username)
 );
 
+CREATE TABLE Videos (
+    VideoID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Thumbnail VARCHAR(255) NOT NULL,
+    Uploader VARCHAR(255) NOT NULL,
+    VideoPath VARCHAR(255) NOT NULL,
+    DESCRIPTION TEXT,
+    DATETIME DATETIME,
+    FOREIGN KEY (Uploader) REFERENCES Users(Username)
+);
+
 CREATE TABLE Rooms (
     RoomID INT AUTO_INCREMENT PRIMARY KEY,
     RoomName VARCHAR(255) NOT NULL,
     RoomCode VARCHAR(255) NOT NULL,
     Admin VARCHAR(50) NOT NULL,
-    Description VARCHAR(255),
+    Descriptions VARCHAR(255),
     VideoID INT NOT NULL,
     LiveNow TINYINT DEFAULT 0,
     Datetime DATETIME,
@@ -96,17 +107,6 @@ CREATE TABLE CommentsRoom (
     Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (Username) REFERENCES Users(Username),
     FOREIGN KEY (RoomID) REFERENCES rooms(RoomID)
-);
-
-CREATE TABLE Videos (
-    VideoID INT AUTO_INCREMENT PRIMARY KEY,
-    Title VARCHAR(255) NOT NULL,
-    Thumbnail VARCHAR(255) NOT NULL,
-    Uploader VARCHAR(255) NOT NULL,
-    VideoPath VARCHAR(255) NOT NULL,
-    DESCRIPTION TEXT,
-    DATETIME DATETIME,
-    FOREIGN KEY (Uploader) REFERENCES Users(Username)
 );
 
 
@@ -336,7 +336,7 @@ AFTER INSERT ON FOLLOWS
 FOR EACH ROW
 BEGIN
     DECLARE notificationMessage TEXT;
-    SET notificationMessage = CONCAT(NEW.FollowerUsername, ' telah mengikuti kamu.');
+    SET notificationMessage = CONCAT('@', NEW.FollowerUsername, ' telah mengikuti kamu.');
     INSERT INTO Notifications (Username, Message, DATETIME) VALUES (NEW.FollowedUsername, notificationMessage, NOW());
 END //
 DELIMITER ;

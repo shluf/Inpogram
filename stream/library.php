@@ -1,4 +1,9 @@
 <?php
+// var_dump(shell_exec("whoami"));
+
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+
 session_start();
 if (!isset($_SESSION['username'])) {
     header("Location: ../index.php");
@@ -15,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
     $target_dir = "videos/";
     $original_file_name = basename($_FILES["fileToUpload"]["name"]);
+    // echo '<script>console.log("' . $original_file_name . '")</script>';
     $videoFileType = strtolower(pathinfo($original_file_name, PATHINFO_EXTENSION));
 
     $new_file_name = $target_dir . date("YmdHis") . "_" . uniqid() . "." . $videoFileType;
@@ -35,10 +41,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploaded = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $new_file_name);
 
         if ($uploaded) {
-            $thumbnail = $target_dir . date("YmdHis") . "_" . uniqid() . ".jpg";
-            $ffmpeg = "/usr/bin/ffmpeg"; // Path to ffmpeg
-            $cmd = "$ffmpeg -i $new_file_name -ss 00:00:01.000 -vframes 1 $thumbnail";
-            exec($cmd);
+            $thumbnail = 'videos/thumb/' . date("YmdHis") . "_" . uniqid() . ".jpg";
+            $ffmpeg = "/usr/bin/ffmpeg";
+            $cmd = "LD_LIBRARY_PATH=/usr/lib $ffmpeg -i $new_file_name -ss 00:00:01.000 -vframes 1 $thumbnail 2>&1";
+            // exec($cmd);
+            $output = [];
+            $return_var = 0;
+            exec($cmd, $output, $return_var);
+
+//            if ($return_var !== 0) {
+//                echo json_encode(['status' => 'error', 'message' => '*Error saat membuat thumbnail: ' . implode("\n", $output)]);
+//                exit;
+//            }
+
 
             $logged_in_user = $_SESSION['username'];
             $sql = "INSERT INTO Videos (Title, Thumbnail, Uploader, VideoPath, Description, Datetime) VALUES (?, ?, ?, ?, ?, NOW())";
@@ -95,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include("../component/leftBarStream.php") ?>
 
     <main>
-        <form action="library.php" method="post" enctype="multipart/form-data">
+        <form id="uploadForm" action="library.php" method="post" enctype="multipart/form-data">
             <label for="fileToUpload">Pilih video untuk diunggah:</label>
             <input type="file" name="fileToUpload" id="fileToUpload">
             <br>
@@ -142,9 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     data: formData,
                     contentType: false,
                     processData: false,
-                    success: function(response) {
-                        var res = JSON.parse(response);
-                        $('#notification').html(res.message);
+                    success: function() {
+                        //var res = JSON.parse(response);
+                        $('#notification').html('*Berhasil mengupload video.');
                     },
                     error: function() {
                         $('#notification').html('*Ada kesalahan saat mengunggah file.');
