@@ -1,4 +1,7 @@
 <?php
+session_start();
+include '../database.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_post']) && isset($_POST['post_id'])) {
     if ($_POST['comment_post'] != '') {
         $comment_text = $_POST['comment_post'];
@@ -19,10 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_post']) && is
         if ($stmt->execute()) {
             // Redirect back to the feed or post
             // header("Location: ".$_SERVER['REQUEST_URI']);
-            echo "<script>window.location.href = '" . $_SERVER["HTTP_REFERER"] . "'; console.log('" . $_SERVER["HTTP_REFERER"] . "');</script>";
+
+            // echo "<script>window.location.href = '" . $_SERVER["HTTP_REFERER"] . "'; console.log('" . $_SERVER["HTTP_REFERER"] . "');</script>";
+            echo json_encode(['success' => true]);
             exit();
         } else {
-            echo "Error: " . $stmt->error;
+            echo json_encode(['success' => false]);
+            // echo "Error: " . $stmt->error;
         }
         $stmt->close();
         $conn->close();

@@ -97,3 +97,71 @@ function addReplyEventListeners() {
       });
   });
 }
+
+document.getElementById('commentForm').addEventListener('submit', function(event) {
+    event.preventDefault(); 
+  
+    const replyCommentId = document.getElementById('ReplyToCommentId').value;
+    const postId = document.getElementById('postId').value;
+    const commentPost = document.getElementById('comment-post').value;
+    
+
+    const formData = new FormData();
+    formData.append('reply_comment_id', replyCommentId);
+    formData.append('post_id', postId);
+    formData.append('comment_post', commentPost);
+  
+    fetch('method/add_comment.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.success) {
+        document.getElementById('ReplyToCommentId').value = '';
+        document.getElementById('comment-post').value = '';
+
+        const commentContainer = document.getElementById('commentContainer');
+        commentContainer.innerHTML = '';
+        
+        
+        fetch(`method/get_comments.php?post_id=${postId}`)
+        .then(response => response.json())
+        .then(data => {
+            const commentsMap = new Map();
+            
+            // Membuat struktur komentar
+            data.forEach(comment => {
+                comment.replies = [];
+                commentsMap.set(comment.commentid, comment);
+            });
+            
+            // Menyusun komentar bersarang
+            commentsMap.forEach(comment => {
+                if (comment.replyid) {
+                    const parentComment = commentsMap.get(comment.replyid);
+                    if (parentComment) {
+                        parentComment.replies.push(comment);
+                    }
+                }
+            });
+            
+            // Render komentar
+            commentsMap.forEach(comment => {
+                if (!comment.replyid) {
+                    renderComment(comment, commentContainer, 0);
+                }
+            });
+            
+          addReplyEventListeners();
+        });
+        
+      } else {
+        console.error('Error:', data.error);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });

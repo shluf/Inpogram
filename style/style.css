@@ -230,8 +230,8 @@ i.status-icon {
 }
 
 .content-body img {
-    width: 400px;
-    height: 400px;
+    width: 465px;
+    height: 465px;
     object-fit: cover;
 }
 
@@ -258,6 +258,10 @@ aside {
 
 .aside-container {
     justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .main-profile {
@@ -288,6 +292,7 @@ aside {
 }
 
 .main-profile-name {
+    font-size: 1.5rem;
     font-weight: bold;
 }
 

@@ -1,6 +1,3 @@
-<?php 
-include "method/add_comment.php";
-?>
 
 <div class="modal fade" id="commentsModal" tabindex="-1" aria-labelledby="commentsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -37,7 +34,7 @@ include "method/add_comment.php";
                           </div>
                         </section>
 
-                        <form id="commentForm" method="post" >
+                        <form id="commentForm">
                           <div class="commentForm position-absolute d-flex flex-row rounded shadow" style="bottom: 10px; max-width: 545px;">
                             
                             <input type="hidden" name="reply_comment_id" id="ReplyToCommentId" value="">
