@@ -14,7 +14,7 @@ $username = $_SESSION['username'];
 
 <aside>
     <div class="aside-container">
-        <h1 class="profile-title">Profile</h1>
+        <h1 class="profile-title">My Profile</h1>
 
         <!-- Display Profile Card -->
         <div id="display-profile-card" class="card profile-card" style="border-radius: 15px;">

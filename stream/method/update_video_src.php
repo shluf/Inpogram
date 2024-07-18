@@ -11,8 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => true]);
 
     } else {
-        echo $room_id;
-        echo $new_video_id;
         echo json_encode(['success' => false]);
     }
 }

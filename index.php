@@ -4,6 +4,9 @@ include "database.php";
 $notify = "";
 
 session_start();
+if (isset($_SESSION["username"])) {
+    header("location: dashboard.php"); 
+}
 
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
@@ -62,13 +65,14 @@ if (isset($_POST['login'])) {
                                         <div class="col-12">
                                             <div class="form-group position-relative">
                                                 <span class="zmdi">@</span>
-                                                <input type="text" id="username" name="username" class="form-control" placeholder="Username">
+                                                <input type="text" id="username" name="username" class="form-control" placeholder="Username" require>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group position-relative">
                                                 <span class="zmdi zmdi-lock"></span>
-                                                <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                                                <input type="password" id="password" name="password" class="form-control" placeholder="Password" require>
+                                                <span toggle="#password" class="zmdi zmdi-eye toggle-password"></span>
                                             </div>
                                         </div>
                                         <i class="login-notify"><?= $notify ?></i>
@@ -100,5 +104,20 @@ if (isset($_POST['login'])) {
     </div>
 
 </body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".toggle-password").click(function() {
+                $(this).toggleClass("zmdi-eye zmdi-eye-off");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                }
+            });
+        });
+    </script>
 
 </html>

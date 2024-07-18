@@ -59,7 +59,7 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
-
+<div class="d-flex justify-content-center align-items-center">
     <div class="content shadow-sm">
         <div class="content-header">
             <i class="bi bi-person-circle"></i>
@@ -100,6 +100,7 @@ if (isset($_GET['id'])) {
             <?php } ?>
         </div>
     </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>

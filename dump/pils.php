@@ -1,30 +1,82 @@
-<!-- Tabs navs -->
-<ul class="nav nav-pills mb-3" id="ex-with-icons" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a data-mdb-pill-init class="nav-link active" id="ex-with-icons-tab-1" href="#ex-with-icons-tabs-1" role="tab"
-    aria-controls="ex-with-icons-tabs-1" aria-selected="true"><i class="fas fa-chart-pie fa-fw me-2"></i>Sales</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a data-mdb-pill-init class="nav-link" id="ex-with-icons-tab-2" href="#ex-with-icons-tabs-2" role="tab"
-      aria-controls="ex-with-icons-tabs-2" aria-selected="false"><i class="fas fa-chart-line fa-fw me-2"></i>Subscriptions</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a data-mdb-pill-init class="nav-link" id="ex-with-icons-tab-3" href="#ex-with-icons-tabs-3" role="tab"
-      aria-controls="ex-with-icons-tabs-3" aria-selected="false"><i class="fas fa-cogs fa-fw me-2"></i>Settings</a>
-  </li>
-</ul>
-<!-- Tabs navs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cropper.js Example</title>
+    <link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet">
+    <style>
+        img {
+            display: block;
+            max-width: 100%;
+        }
+        .container {
+            max-width: 640px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="file" id="fileInput">
+        <br>
+        <img id="image" style="display:none;">
+        <br>
+        <button id="cropButton" style="display:none;">Crop and Upload</button>
+    </div>
+    <script src="https://unpkg.com/cropperjs"></script>
+    <script>
+        let cropper;
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('image');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+                    cropper = new Cropper(img, {
+                        dragMode: 'move',
+                        aspectRatio: 1,
+                        viewMode: 2,
+                        autoCrop: false
+                    });
+                    // const cropperContainer = document.querySelector('.cropper-container');
+                    // cropperContainer.style.width = '480px';
+                    document.getElementById('cropButton').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
 
-<!-- Tabs content -->
-<div class="tab-content" id="ex-with-icons-content">
-  <div class="tab-pane fade show active" id="ex-with-icons-tabs-1" role="tabpanel" aria-labelledby="ex-with-icons-tab-1">
-    Tab 1 content
-  </div>
-  <div class="tab-pane fade" id="ex-with-icons-tabs-2" role="tabpanel" aria-labelledby="ex-with-icons-tab-2">
-    Tab 2 content
-  </div>
-  <div class="tab-pane fade" id="ex-with-icons-tabs-3" role="tabpanel" aria-labelledby="ex-with-icons-tab-3">
-    Tab 3 content
-  </div>
-</div>
-<!-- Tabs content -->
+        document.getElementById('cropButton').addEventListener('click', function() {
+            if (cropper) {
+                const canvas = cropper.getCroppedCanvas();
+                canvas.toBlob(function(blob) {
+                    const formData = new FormData();
+                    formData.append('croppedImage', blob);
+                    formData.append('originalImage', document.getElementById('fileInput').files[0]); // Menambahkan gambar asli ke FormData
+
+                    fetch('upload.php', {
+                        method: 'POST',
+                        body: formData,
+                    }).then(response => response.json())
+                      .then(data => {
+                          if (data.success) {
+                              alert('Image successfully uploaded');
+                          } else {
+                              alert('Upload failed');
+                          }
+                      }).catch(error => {
+                          console.error('Error:', error);
+                          alert('Upload failed');
+                      });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

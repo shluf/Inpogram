@@ -151,8 +151,20 @@ body{
     .login-section .content {
       padding: 45px;
     }
+
+
+    .form-group {
+      position: relative;
+  }
     
-    .form-group .zmdi {
+  .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+  }
+    .form-group .zmdi:not(.toggle-password) {
         position: absolute;
         z-index: 1;
         color: #fff;
@@ -164,6 +176,13 @@ body{
         font-size: 20px;
         padding-top: 9px;
     }
+
+    .form-group .zmdi.toggle-password {
+      background-color: transparent !important;
+      color: #858585;
+    }
+
+
     
     .form-group input[type='text'], .form-group input[type='email'], .form-group input[type='password'] {
         padding-left: 60px;
