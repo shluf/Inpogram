@@ -20,7 +20,7 @@ if ($result->num_rows > 0) {
 
 <?php include "component/modalPost.php"; ?>
 
-<div class="container">
+<div class="container main-app">
     <div class="tz-gallery">
         <div class="row">
 

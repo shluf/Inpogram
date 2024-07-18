@@ -91,7 +91,7 @@ $resultFollowerList = $stmtFollowerList->get_result();
 <body>
 
   <?php include("component/leftBar.php") ?>
-  <div class="app main-app flex-md-row d-flex flex-column-reverse ">
+  <div class="app flex-md-row d-flex flex-column-reverse ">
   <main class="my-gallery-container">
     <?php include("content/myProfileGallery.php") ?>
   </main>

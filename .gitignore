@@ -1,3 +1,5 @@
 stream/node_modules
 stream/package-lock.json
+stream/videos/*
+images/posts/*
 ratchet

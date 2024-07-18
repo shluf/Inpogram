@@ -44,8 +44,8 @@
                     </div>
                 </div>
             </form>
-                <i><?= $notification ?></i>
-                <div class="text-center">
+            <i id="notification"></i>
+            <div class="text-center">
                     <button id="uploadImageButton" class="btn btn-primary">Posting</button>
                     <button type="button" class="btn btn-outline-primary" style="display: none;" id="editButton" data-bs-toggle="modal" data-bs-target="#editModal">
                         Edit
@@ -173,7 +173,7 @@
                 }).then(response => response.json())
                   .then(data => {
                       if (data.success) {
-                          alert('Postingan berhasil diupload');
+                          document.getElementById('notification').innerHTML = '| Postingan berhasil diupload';
                       } else {
                           alert('Upload gagal');
                       }
