@@ -10,7 +10,7 @@
       <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
         <li class="nav-item">
           <a href="./index.php" class="nav-link <?= strpos($current_page, 'index.php') !== false ? 'active' : '' ?> py-3 m-2 border-bottom rounded-circle" aria-current="page" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Home" data-bs-original-title="Home">
-            <i class="bi bi-house"></i>
+            <i class="bi bi-door-open"></i>
           </a>
         </li>
         <li class="nav-item">

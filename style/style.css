@@ -68,7 +68,6 @@ h3 {
     font-size: 1.5rem;
     color: #c2506e;
     font-weight: bold;
-    margin-top: 1rem;
 }
 
 textarea {
@@ -248,11 +247,11 @@ i.status-icon {
 aside {
     display: flex;
     margin-right: 50px;
-    margin-top: 50px;
+    /* margin-top: 50px; */
     padding-left: 50px;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     flex: 1;
 }
 
@@ -344,13 +343,20 @@ aside {
 }
 
 .container-comment {
-    height: 400px;
-    overflow-y: hidden;
+    height: 569px;
+}
+
+.comments {
+    height: calc(569px - 62.8px);
 }
 
 .commentForm {
     width: calc(100% - 24px);
     background-color: #fff;
+}
+
+.modal-body {
+    height: 569px;
 }
 
 .modalImage {
@@ -389,6 +395,48 @@ aside {
     position: relative;
 }
 
+
+.distance {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+.distance__section {
+    position: relative;
+    padding: 1rem 2rem;
+    background-color: #fff;
+    box-shadow: 0 0 .6rem rgba(0,0,0,.3);
+    border-radius: .8rem;
+}
+.distance__section::after {
+    content: '';
+    height: 80%;
+    width: 1.6rem;
+    background-color: #c2506e;
+    position: absolute;
+    right: 0;
+    top: 10%;
+    border-radius: 1.2rem 0 0 1.2rem;
+    box-shadow: inset .4rem .4rem 1rem rgba(0,0,0,.2);
+}
+.distance p {
+    margin-top: 0;
+    margin-bottom: 2px;
+    font-size: 1rem;
+}
+.distance .distance__section > h2 {
+    font-weight: 400;
+    margin-bottom: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+}
+.distance svg {
+    height: 2rem;
+    margin-top: 1rem;
+}
+
+
 @media (max-width: 768px) {
 
     .my-gallery-container,
@@ -414,6 +462,15 @@ aside {
 }
 
 @media (max-width: 1200px) {
+    .modal-body {
+        height: 400px;
+    }
+
+    .container-comment {
+        height: 400px;
+        overflow-y: hidden;
+    }
+
     .modalImage {
         display: none;
         border-radius: 5px 5px 5px 5px;
@@ -434,6 +491,10 @@ aside {
         z-index: 10;
         height: 400px;
         background: transparent;
+    }
+
+    .comments {
+        height: calc(400px - 62.8px);
     }
 
     .comment-content {

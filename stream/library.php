@@ -44,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $thumbnail = 'videos/thumb/' . date("YmdHis") . "_" . uniqid() . ".jpg";
             $ffmpeg = "/usr/bin/ffmpeg";
             $cmd = "LD_LIBRARY_PATH=/usr/lib $ffmpeg -i $new_file_name -ss 00:00:01.000 -vframes 1 $thumbnail 2>&1";
-            // exec($cmd);
             $output = [];
             $return_var = 0;
             exec($cmd, $output, $return_var);
@@ -110,6 +109,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include("../component/leftBarStream.php") ?>
 
     <main>
+        <h2>Daftar Video</h2>
+        <div class="video-list">
+            <?php
+            include "../database.php";
+            $stmt = $conn->prepare("SELECT * FROM Videos");
+            $stmt->execute();
+            $videos = $stmt->get_result();
+
+            while ($video = $videos->fetch_assoc()) {
+                echo '<div class="video-item">';
+                echo '<h3>' . htmlspecialchars($video['Title']) . '</h3>';
+                echo '<p>' . htmlspecialchars($video['DESCRIPTION']) . '</p>';
+                echo '<img src="' . htmlspecialchars($video['Thumbnail']) . '" width="320" height="240" controls>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+        <hr>
         <form id="uploadForm" action="library.php" method="post" enctype="multipart/form-data">
             <label for="fileToUpload">Pilih video untuk diunggah:</label>
             <input type="file" name="fileToUpload" id="fileToUpload">

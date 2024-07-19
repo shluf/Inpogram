@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content">
 
-            <div class="modal-body p-0" style="height: 400px;">
+            <div class="modal-body p-0">
 
               <div class="container-fluid">
                 <div class="row">
@@ -24,7 +24,7 @@
 
 
 
-                        <section class="overflow-y-auto" style="height: calc(400px - 62.8px)">
+                        <section class="comments overflow-y-auto">
                           <div id="post-desc">
 
                           </div>

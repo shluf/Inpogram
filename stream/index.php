@@ -27,9 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("sssss", $roomCode, $logged_in_user, $roomName, $descriptions, $videoID);
 
     if ($stmt->execute()) {
-        echo "Room created successfully with code: " . $roomCode;
+        // echo "Room created successfully with code: " . $roomCode;
+        exit();
     } else {
-        echo "Error: " . $stmt->error;
+        // echo "Error: " . $stmt->error;
     }
 }
 ?>
@@ -51,7 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <?php include("../component/leftBarStream.php") ?>
     <main>
-        <h1>Stream</h1>
+        <h1 class="feed-title">Stream</h1>
+        <div class="d-flex justify-content-around">
+            
         <?php
 
         $stmt = $conn->prepare("SELECT * FROM Rooms");
@@ -59,17 +62,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $rooms = $stmt->get_result();
 
         while ($row = $rooms->fetch_assoc()) {
-            echo '<p>Room Name: ' . htmlspecialchars($row['RoomName'], ENT_QUOTES, 'UTF-8') . '</p>';
-            echo '<p>Description: ' . htmlspecialchars($row['Descriptions'], ENT_QUOTES, 'UTF-8') . '</p>';
+            echo '<div class="rounded shadow-sm p-3" style="min-width: 300px; background-color: white;">';
+            echo '<h3> ' . htmlspecialchars($row['RoomName'], ENT_QUOTES, 'UTF-8') . '</h3>';
+            echo '<p> ' . htmlspecialchars($row['Descriptions'], ENT_QUOTES, 'UTF-8') . '</p>';
             if ($row['LiveNow']) {
                 echo '<p>Sedang Tayang</p>';
             }
-            echo '<a href="room.php?id=' . htmlspecialchars($row['RoomCode'], ENT_QUOTES, 'UTF-8') . '">Join</a>';
-            echo '<hr>';
+            echo '<a class="btn" href="room.php?id=' . htmlspecialchars($row['RoomCode'], ENT_QUOTES, 'UTF-8') . '">Join</a>';
+            echo '</div>';
         }
-
+        
         ?>
 
+</div>
+<hr>
 
         <form action="<?php echo $current_page; ?>" method="post" enctype="multipart/form-data">
             <label for="roomName">Nama Ruangan:</label>
