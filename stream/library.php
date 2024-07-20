@@ -87,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <style>
         main {
             padding-left: 90px;
+            padding-right: 90px;
         }
 
         #progressBar {
@@ -110,7 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <main>
         <h2>Daftar Video</h2>
-        <div class="video-list">
+
+        <div class="px-5 row">
             <?php
             include "../database.php";
             $stmt = $conn->prepare("SELECT * FROM Videos");
@@ -118,35 +120,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $videos = $stmt->get_result();
 
             while ($video = $videos->fetch_assoc()) {
+                echo '<div class="col-md-3 mb-3">';
                 echo '<div class="video-item">';
                 echo '<h3>' . htmlspecialchars($video['Title']) . '</h3>';
                 echo '<p>' . htmlspecialchars($video['DESCRIPTION']) . '</p>';
-                echo '<img src="' . htmlspecialchars($video['Thumbnail']) . '" width="320" height="240" controls>';
+                echo '<img src="' . htmlspecialchars($video['Thumbnail']) . '" width="140" height="240">';
+                echo '</div>';
                 echo '</div>';
             }
             ?>
         </div>
         <hr>
-        <form id="uploadForm" action="library.php" method="post" enctype="multipart/form-data">
-            <label for="fileToUpload">Pilih video untuk diunggah:</label>
-            <input type="file" name="fileToUpload" id="fileToUpload">
-            <br>
-            <br>
-            <label for="title">Judul:</label>
-            <input type="text" name="title" id="title">
-            <br>
-            <br>
-            <label for="description">Deskripsi:</label>
-            <textarea name="description" id="description" rows="4" cols="50"></textarea>
-            <br>
-            <p id="notification"></p>
+
+        <div class="container mt-4">
+        <form id="uploadForm" action="library.php" method="post" enctype="multipart/form-data" class="form-group">
+            <div class="mb-3">
+                <label for="fileToUpload" class="form-label">Pilih video untuk diunggah:</label>
+                <input type="file" name="fileToUpload" id="fileToUpload" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="title" class="form-label">Judul:</label>
+                <input type="text" name="title" id="title" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Deskripsi:</label>
+                <textarea name="description" id="description" rows="4" cols="50" class="form-control"></textarea>
+            </div>
+            <p id="notification" class="text-danger"></p>
             
-                    <div id="progressBar">
-                        <div></div>
-                    </div>
+            <div id="progressBar" class="progress">
+                <div class="progress-bar" role="progressbar"></div>
+            </div>
             <br>
-            <input type="submit" value="Unggah Video" name="submit">
+            <input type="submit" value="Unggah Video" name="submit" class="btn btn-primary">
         </form>
+        </div>
+        
     </main>
 
 

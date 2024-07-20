@@ -82,6 +82,7 @@ CREATE TABLE Videos (
     Thumbnail VARCHAR(255) NOT NULL,
     Uploader VARCHAR(255) NOT NULL,
     VideoPath VARCHAR(255) NOT NULL,
+    Duration INT,
     DESCRIPTION TEXT,
     DATETIME DATETIME,
     FOREIGN KEY (Uploader) REFERENCES Users(Username)

@@ -93,7 +93,13 @@ function addReplyEventListeners() {
           } else {
               console.error('Reply inputs not found');
           }
-          console.log('Replying to comment:', parentCommentId, 'by user:', parentUsername);
+
+          
+          const replyContainer = document.getElementById('replyContainer');
+          const replyingView = document.getElementById('replyingUsername');
+          replyingView.innerHTML = `@${parentUsername}`;
+          replyContainer.classList.remove('d-none');
+        //   console.log('Replying to comment:', parentCommentId, 'by user:', parentUsername);
       });
   });
 }
@@ -119,8 +125,7 @@ document.getElementById('commentForm').addEventListener('submit', function(event
     .then(data => {
       console.log(data);
       if (data.success) {
-        document.getElementById('ReplyToCommentId').value = '';
-        document.getElementById('comment-post').value = '';
+        closeReply();
 
         const commentContainer = document.getElementById('commentContainer');
         commentContainer.innerHTML = '';
@@ -165,3 +170,10 @@ document.getElementById('commentForm').addEventListener('submit', function(event
       console.error('Error:', error);
     });
   });
+
+
+function closeReply() {
+document.getElementById('ReplyToCommentId').value = '';
+document.getElementById('comment-post').value = '';
+document.getElementById('replyContainer').classList.add('d-none');
+}

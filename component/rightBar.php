@@ -71,7 +71,7 @@ include "method/follow.php";
     </section>
 
     <section class="notification">
-      <h3>Notifikasi</h3>
+      <h3 class="mt-2">Notifikasi</h3>
       <div class="list-group">
         <?php
 

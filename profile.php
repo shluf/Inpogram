@@ -91,11 +91,11 @@ $resultFollowerList = $stmtFollowerList->get_result();
 <body>
 
   <?php include("component/leftBar.php") ?>
-  <div class="app flex-md-row d-flex flex-column-reverse ">
+  <div class="app flex-md-row-reverse d-flex flex-column">
+    <?php include("component/rightBarProfile.php") ?>
   <main class="my-gallery-container">
     <?php include("content/myProfileGallery.php") ?>
   </main>
-  <?php include("component/rightBarProfile.php") ?>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">

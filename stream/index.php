@@ -54,50 +54,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main>
         <h1 class="feed-title">Stream</h1>
         <div class="d-flex justify-content-around">
-            
-        <?php
 
-        $stmt = $conn->prepare("SELECT * FROM Rooms");
-        $stmt->execute();
-        $rooms = $stmt->get_result();
+            <?php
 
-        while ($row = $rooms->fetch_assoc()) {
-            echo '<div class="rounded shadow-sm p-3" style="min-width: 300px; background-color: white;">';
-            echo '<h3> ' . htmlspecialchars($row['RoomName'], ENT_QUOTES, 'UTF-8') . '</h3>';
-            echo '<p> ' . htmlspecialchars($row['Descriptions'], ENT_QUOTES, 'UTF-8') . '</p>';
-            if ($row['LiveNow']) {
-                echo '<p>Sedang Tayang</p>';
+            $stmt = $conn->prepare("SELECT * FROM Rooms");
+            $stmt->execute();
+            $rooms = $stmt->get_result();
+
+            while ($row = $rooms->fetch_assoc()) {
+                echo '<div class="rounded shadow-sm p-3" style="min-width: 300px; background-color: white;">';
+                echo '<h3> ' . htmlspecialchars($row['RoomName'], ENT_QUOTES, 'UTF-8') . '</h3>';
+                echo '<p> ' . htmlspecialchars($row['Descriptions'], ENT_QUOTES, 'UTF-8') . '</p>';
+                if ($row['LiveNow']) {
+                    echo '<p>Sedang Tayang</p>';
+                }
+                echo '<a class="btn" href="room.php?id=' . htmlspecialchars($row['RoomCode'], ENT_QUOTES, 'UTF-8') . '">Join</a>';
+                echo '</div>';
             }
-            echo '<a class="btn" href="room.php?id=' . htmlspecialchars($row['RoomCode'], ENT_QUOTES, 'UTF-8') . '">Join</a>';
-            echo '</div>';
-        }
-        
-        ?>
 
-</div>
-<hr>
+            ?>
 
-        <form action="<?php echo $current_page; ?>" method="post" enctype="multipart/form-data">
-            <label for="roomName">Nama Ruangan:</label>
-            <input type="text" id="roomName" name="roomName" required><br><br>
+        </div>
+        <hr>
 
-            <label for="descriptions">Deskripsi:</label>
-            <textarea id="descriptions" name="descriptions" required></textarea><br><br>
+        <div>
+            <form action="<?php echo $current_page; ?>" method="post" enctype="multipart/form-data" class="p-3">
+                <div class="mb-3">
+                    <label for="roomName" class="form-label">Nama Ruangan:</label>
+                    <input type="text" id="roomName" name="roomName" class="form-control" required>
+                </div>
 
-            <label for="videoID">Pilih Video:</label>
-            <select name="videoID" id="videoID" required>
-                <?php
-                    $stmt = $conn->prepare("SELECT * FROM Videos");
-                    $stmt->execute();
-                    $videos = $stmt->get_result();
-                    foreach ($videos as $video) {
-                        echo '<option value="' . htmlspecialchars($video['VideoID']) . '">' . htmlspecialchars($video['Title']) . '</option>';
-                    }
-                ?>
-            </select><br><br>
+                <div class="mb-3">
+                    <label for="descriptions" class="form-label">Deskripsi:</label>
+                    <textarea id="descriptions" name="descriptions" class="form-control" required></textarea>
+                </div>
 
-            <button type="submit">Create Room</button>
-        </form>
+                <div class="mb-3">
+                    <label for="videoID" class="form-label">Pilih Video:</label>
+                    <select name="videoID" id="videoID" class="form-select" required>
+                        <?php
+                        $stmt = $conn->prepare("SELECT * FROM Videos");
+                        $stmt->execute();
+                        $videos = $stmt->get_result();
+                        foreach ($videos as $video) {
+                            echo '<option value="' . htmlspecialchars($video['VideoID']) . '">' . htmlspecialchars($video['Title']) . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Room</button>
+            </form>
+        </div>
     </main>
 
 </body>

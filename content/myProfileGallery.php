@@ -36,7 +36,16 @@ if ($result->num_rows > 0) {
                 } else {
                     echo '<div class="col-md-6 position-relative" onmouseover="this.querySelector(\'button\').style.display=\'block\'" onmouseout="this.querySelector(\'button\').style.display=\'none\'">';
                 }
-                echo '<button class="delete-post position-absolute btn btn-danger" data-postid="' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '" style="z-index: 25; display: none; top: 10px; right: 10px;"><i class="bi bi-trash-fill"></i></button>
+                echo '
+                <div class="btn-group dropend">
+                <button class="position-absolute btn btn-sm" style="display:none; top: 15px; left: 8px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><p class="dropdown-header pt-0">Edit post</p></li>
+                    <li class="delete-post px-2 text-sm" style="cursor: pointer; background-color: #ffffff11" data-postid="' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '"><i class="bi bi-trash"></i> Delete</li>
+                </ul>
+                </div>
                         <img data-bs-toggle="modal" data-bs-target="#commentsModal" 
                             style="width: 100%; border-radius: 5px;" 
                             src="' . $post['Image'] . '" alt="' . $post['DESCRIPTION'] . '" 

@@ -97,8 +97,8 @@ $username = $_SESSION['username'];
     </div>
 </div>
 
-<aside>
-    <div>
+<aside class="aside-profile">
+    <div class="profile-card-container">
         <h1 class="profile-title">My Profile</h1>
 
         <!-- Display Profile Card -->

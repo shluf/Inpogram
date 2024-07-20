@@ -78,6 +78,7 @@ textarea {
 
 .main-app {
     padding-bottom: 56px;
+    margin-left: 96px;
 }
 
 .nav-container {
@@ -121,10 +122,9 @@ div.app {
 }
 
 .feed-container {
-    margin-left: 96px;
     flex: 2;
     overflow-y: auto;
-    /* height: 100vh; */
+    padding: 15px;
     scrollbar-width: none;
 }
 
@@ -136,6 +136,7 @@ div.app {
 }
 
 .status-list {
+    max-width: 850px;
     display: flex;
     flex-direction: row;
     overflow-x: auto;
@@ -244,10 +245,20 @@ i.status-icon {
     color: #c2506e;
 }
 
-aside {
+.aside-dashboard {
+    margin-right: 50px;
+    margin-top: 50px;
+    gap: 0.8rem;
+    padding-left: 50px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1;
+}
+
+.aside-profile {
     display: flex;
     margin-right: 50px;
-    /* margin-top: 50px; */
     padding-left: 50px;
     flex-direction: column;
     align-items: center;
@@ -257,6 +268,7 @@ aside {
 
 .aside-container {
     justify-content: center;
+    width: 100%;
     padding: 20px;
     border-radius: 10px;
     background-color: white;
@@ -438,6 +450,9 @@ aside {
 
 
 @media (max-width: 768px) {
+    .profile-card-container {
+        width: 100%;
+    }
 
     .my-gallery-container,
     .upload-container,

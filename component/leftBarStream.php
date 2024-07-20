@@ -20,7 +20,7 @@
         </li>
         <li>
           <a href="./room.php" class="disabled nav-link <?= strpos($current_page, 'room.php') !== false ? 'active' : '' ?> py-3 m-2 border-bottom rounded-circle" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Dashboard" data-bs-original-title="Dashboard">
-            <i class="bi bi-compass"></i>
+            <i class="bi bi-cup-hot"></i>
           </a>
         </li>
       </ul>

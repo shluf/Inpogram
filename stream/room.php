@@ -54,7 +54,7 @@ if (isset($_GET['id'])) {
     <style>
         main {
             font-family: Arial, sans-serif;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -121,6 +121,8 @@ if (isset($_GET['id'])) {
     <main>
         <h1><?php echo htmlspecialchars($room['RoomName']); ?></h1>
 
+        <div class="row">
+        <section class="col-8">
         <?php
 
         $stmt = $conn->prepare("SELECT * FROM Videos");
@@ -136,47 +138,53 @@ if (isset($_GET['id'])) {
 
 
         if ($isAdmin) {
-            echo '<label for="videoPath">Pilih video:</label>';
-            echo '<select name="videoPath" id="videoPath" onchange="changeVideo(this.value)">';
+            echo '<div class="mb-3">';
+            echo '<label for="videoPath" class="form-label">Pilih video:</label>';
+            echo '<select name="videoPath" id="videoPath" class="form-select" onchange="changeVideo(this.value)">';
             foreach ($videos as $video) {
                 $selected = ($video['VideoID'] == $room['VideoID']) ? 'selected' : '';
                 echo '<option value="' . htmlspecialchars($video['VideoID']) . '" ' . $selected . '>' . htmlspecialchars($video['Title']) . '</option>';
             }
             echo '</select>';
+            echo '</div>';
         }
         
         ?>
 
-        <video id="videoPlayer" src="<?php echo htmlspecialchars($roomVideo['VideoPath']); ?>"></video>
+        <video id="videoPlayer" class="w-100" src="<?php echo htmlspecialchars($roomVideo['VideoPath']); ?>"></video>
 
-        <div id="adminControls">
-            <button onclick="playVideo()">Play</button>
-            <button onclick="pauseVideo()">Pause</button>
-            <input type="range" id="timeRange" min="0" max="100" value="0">
-            <div class="time-display">
+        <div id="adminControls" class="mt-3">
+            <button class="btn btn-primary" onclick="playVideo()">Play</button>
+            <button class="btn btn-secondary" onclick="pauseVideo()">Pause</button>
+            <input type="range" id="timeRange" class="form-range mt-2" min="0" max="100" value="0">
+            <div class="d-flex justify-content-between mt-2">
                 <span id="currentTime">0:00</span>
                 <span id="duration">0:00</span>
             </div>
         </div>
 
-        <div class="video-item">
-        <div class="card">
-            <div class="card-body">
-                <img style="max-width: 100px; max-height: 100px; object-fit: cover;" class="card-title" src="<?php echo htmlspecialchars($roomVideo['Thumbnail']); ?>"></img>
-                <h5 class="card-title"><?php echo htmlspecialchars($roomVideo['Title']); ?></h5>
-                <p class="card-text">Uploader: <?php echo htmlspecialchars($roomVideo['Uploader']); ?></p>
-                <p class="card-text">Description: <?php echo htmlspecialchars($roomVideo['DESCRIPTION']); ?></p>
-                <p class="card-text">Uploaded on: <?php echo $roomVideo['DATETIME']; ?></p>
+        <div class="video-item mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <img style="max-width: 100px; max-height: 100px; object-fit: cover;" class="card-img-top" src="<?php echo htmlspecialchars($roomVideo['Thumbnail']); ?>"></img>
+                    <h5 class="card-title"><?php echo htmlspecialchars($roomVideo['Title']); ?></h5>
+                    <p class="card-text">Uploader: <?php echo htmlspecialchars($roomVideo['Uploader']); ?></p>
+                    <p class="card-text">Description: <?php echo htmlspecialchars($roomVideo['DESCRIPTION']); ?></p>
+                    <p class="card-text">Uploaded on: <?php echo $roomVideo['DATETIME']; ?></p>
+                </div>
             </div>
         </div>
+        </section>
 
-        </div>
 
-        <aside>
-        <div id="comments"></div>
-        <input type="text" id="commentInput" placeholder="Enter your comment">
-        <button onclick="sendComment()">Send</button>
+        <aside class="mt-4 col-4">
+            <div id="comments" class="mb-3"></div>
+            <div class="input-group">
+                <input type="text" id="commentInput" class="form-control" placeholder="Enter your comment">
+                <button class="btn btn-primary" onclick="sendComment()">Send</button>
+            </div>
         </aside>
+    </div>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
