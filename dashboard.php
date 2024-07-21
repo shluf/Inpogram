@@ -20,7 +20,7 @@
 <body>
   <?php include("component/leftBar.php") ?>
   <div class="main-app">  
-    <div class=" d-flex flex-row-reverse">
+    <div class="d-md-flex d-block flex-row-reverse">
     <aside class="aside-dashboard d-none d-lg-flex">
     <?php include("component/rightBar.php") ?>
     </aside>

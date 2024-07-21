@@ -1,7 +1,6 @@
-
 <navbar class="d-none d-md-flex d-lg-flex d-xl-flex">
   <div class="d-flex flex-column flex-shrink-0 justify-content-between bg-body-tertiary rounded nav-container border" style="width: 4.5rem;">
-    <div class="nav nav-pills nav-flush flex-column text-center">     
+    <div class="nav nav-pills nav-flush flex-column text-center">
       <a href="stream/" class="nav-link  py-3 m-2 border-bottom rounded-circle" aria-current="page" data-bs-togle="tooltip" data-bs-placement="right" aria-label="Home" data-bs-original-title="Home">
         <i class="bi bi-camera-reels-fill"></i>
       </a>
@@ -30,16 +29,31 @@
         </li>
       </ul>
     </div>
+
     <div class="dropdown border-top">
+
       <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-list"></i>
       </a>
       <ul class="dropdown-menu text-small shadow">
-        <!-- <li><a class="dropdown-item" href="#">Settings</a></li>
-          <li><a class="dropdown-item" href="#">Profile</a></li>
-          <li>
-            <hr class="dropdown-divider">
-          </li> -->
+
+
+        <li class="dropdown">
+          <a class="dropdown-item tema-dropdown">
+            Tema
+          </a>
+          <span class="tema-dropdown-content" style="position: absolute; left: 100%; top: -8px; display: none;">
+            <div class="rounded mode-selector" style="background-color: white; margin-left: 8px;">
+              <a id="lightMode" class="dropdown-item btn rounded"><i class="bi bi-brightness-high-fill"></i> Light </a>
+              <a id="darkMode" class="dropdown-item btn rounded"><i class="bi bi-moon-stars-fill"></i> Dark </a>
+              <a id="systemMode" class="dropdown-item btn rounded"><i class="bi bi-circle-half"></i> System</a>
+            </div>
+          </span>
+        </li>
+
+        <li>
+          <hr class="dropdown-divider">
+        </li>
         <li>
           <form action="method/logout.php" method="POST">
             <button class="dropdown-item" type="submit" name="logout">Sign out</button>
@@ -47,6 +61,7 @@
         </li>
       </ul>
     </div>
+
   </div>
 </navbar>
 
@@ -80,9 +95,9 @@
     <li class="nav-item">
       <a href="stream/" class="nav-link">
         <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-camera-reels" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0M1 3a2 2 0 1 0 4 0 2 2 0 0 0-4 0"/>
-  <path d="M9 6h.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 7.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 16H2a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm6 8.73V7.27l-3.5 1.555v4.35zM1 8v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1"/>
-  <path d="M9 6a3 3 0 1 0 0-6 3 3 0 0 0 0 6M7 3a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
+          <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0M1 3a2 2 0 1 0 4 0 2 2 0 0 0-4 0" />
+          <path d="M9 6h.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 7.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 16H2a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm6 8.73V7.27l-3.5 1.555v4.35zM1 8v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1" />
+          <path d="M9 6a3 3 0 1 0 0-6 3 3 0 0 0 0 6M7 3a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
 
         </svg>
       </a>
@@ -96,3 +111,5 @@
     </li>
   </ul>
 </nav>
+
+<script src="js/toggleDarkLightMode.js"></script>

@@ -1,57 +1,87 @@
 :root {
     --bs-link-color: #c2506e;
     --bs-link-hover-color: #c2506e;
+
+    --main-color: #c2506e;
+    --background-color: #F6F5F8;
+    --text-color: #000;
+}
+
+.tema-dropdown:hover + .tema-dropdown-content,
+.tema-dropdown-content:hover {
+  display: block !important;
+}
+
+.dark-mode {
+    --bs-link-color: #ff8799;
+    --bs-link-hover-color: #ff8799;
+
+
+    --main-color: #c2506e;
+    --background-color: #333;
+    --text-color: #fff;
+}
+
+/* Light Mode explicitly */
+.light-mode {
+    --bs-link-color: #c2506e;
+    --bs-link-hover-color: #c2506e;
+    
+    --main-color: #c2506e;
+    --background-color: #F6F5F8;
+    --text-color: #000;
 }
 
 .nav-link.disabled,
 .nav-link:disabled {
-    color: #c2506e;
+    color: var(--main-color);
 }
 
 .nav-pills {
-    --bs-nav-pills-link-active-bg: #c2506e;
+    --bs-nav-pills-link-active-bg: var(--main-color);
 }
 
 .nav-pills a:hover {
-    border: 1px solid #c2506e;
+    border: 1px solid var(--main-color);
 }
 
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #c2506e;
-    --bs-btn-border-color: #c2506e;
+    --bs-btn-bg: var(--main-color);
+    --bs-btn-border-color: var(--main-color);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #c2506e;
-    --bs-btn-hover-border-color: #c2506e;
+    --bs-btn-hover-bg: var(--main-color);
+    --bs-btn-hover-border-color: var(--main-color);
     --bs-btn-focus-shadow-rgb: 49, 132, 253;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #c2506e;
-    --bs-btn-active-border-color: #c2506e;
+    --bs-btn-active-bg: var(--main-color);
+    --bs-btn-active-border-color: var(--main-color);
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #c2506e;
-    --bs-btn-disabled-border-color: #c2506e;
+    --bs-btn-disabled-bg: var(--main-color);
+    --bs-btn-disabled-border-color: var(--main-color);
 }
 
 .btn-outline-primary {
-    --bs-btn-color: #c2506e;
-    --bs-btn-border-color: #c2506e;
+    --bs-btn-color: var(--main-color);
+    --bs-btn-border-color: var(--main-color);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #c2506e;
-    --bs-btn-hover-border-color: #c2506e;
+    --bs-btn-hover-bg: var(--main-color);
+    --bs-btn-hover-border-color: var(--main-color);
     --bs-btn-focus-shadow-rgb: 13, 110, 253;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #c2506e;
-    --bs-btn-active-border-color: #c2506e;
+    --bs-btn-active-bg: var(--main-color);
+    --bs-btn-active-border-color: var(--main-color);
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #c2506e;
+    --bs-btn-disabled-color: var(--main-color);
     --bs-btn-disabled-bg: transparent;
-    --bs-btn-disabled-border-color: #c2506e;
+    --bs-btn-disabled-border-color: var(--main-color);
     --bs-gradient: none;
 }
 
 body {
-    background-color: #F6F5F8;
+    background-color: var(--background-color);
+    color: var(--text-color);
     box-sizing: border-box;
 }
 
@@ -66,7 +96,7 @@ navbar {
 
 h3 {
     font-size: 1.5rem;
-    color: #c2506e;
+    color: var(--main-color);
     font-weight: bold;
 }
 
@@ -91,7 +121,6 @@ div.app {
 }
 
 .my-gallery-container {
-    margin-left: 96px;
     flex: 1;
     scrollbar-width: none;
     overflow-y: auto;
@@ -156,7 +185,7 @@ li.profile-status {
 i.status-icon {
     border-radius: 50%;
     font-size: 4rem;
-    color: #c2506e;
+    color: var(--main-color);
 }
 
 .header {
@@ -219,12 +248,12 @@ i.status-icon {
 }
 
 .feed-title {
-    color: #c2506e;
+    color: var(--main-color);
     font-weight: bold;
 }
 
 .profile-title {
-    color: #c2506e;
+    color: var(--main-color);
     font-weight: bold;
     /* margin-top: 40px; */
 }
@@ -242,7 +271,7 @@ i.status-icon {
 }
 
 .search-bar input::placeholder {
-    color: #c2506e;
+    color: var(--main-color);
 }
 
 .aside-dashboard {
@@ -290,7 +319,7 @@ i.status-icon {
     padding-right: 25px;
     margin-top: 15px;
     margin-bottom: 15px;
-    border-left: 5px solid #c2506e;
+    border-left: 5px solid var(--main-color);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -425,7 +454,7 @@ i.status-icon {
     content: '';
     height: 80%;
     width: 1.6rem;
-    background-color: #c2506e;
+    background-color: var(--main-color);
     position: absolute;
     right: 0;
     top: 10%;
@@ -450,6 +479,10 @@ i.status-icon {
 
 
 @media (max-width: 768px) {
+    .main-app {
+        margin-left: 96px;
+    }
+
     .profile-card-container {
         width: 100%;
     }
@@ -514,7 +547,7 @@ i.status-icon {
 
     .comment-content {
         z-index: 10;
-        background-color: #F6F5F8;
+        background-color: var(--background-color);
         border-radius: 5px 5px 5px 5px;
     }
 
