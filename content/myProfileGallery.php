@@ -20,7 +20,7 @@ if ($result->num_rows > 0) {
 
 <?php include "component/modalPost.php"; ?>
 
-<div class="container main-app">
+<div class="container">
     <div class="tz-gallery">
         <div class="row">
 
@@ -37,8 +37,8 @@ if ($result->num_rows > 0) {
                     echo '<div class="col-md-6 position-relative" onmouseover="this.querySelector(\'button\').style.display=\'block\'" onmouseout="this.querySelector(\'button\').style.display=\'none\'">';
                 }
                 echo '
-                <div class="btn-group dropend">
-                <button class="position-absolute btn btn-sm" style="display:none; top: 15px; left: 8px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="dropend">
+                <button class="position-absolute btn btn-sm" style="display:none; top: 8px; left: 8px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-three-dots"></i>
                 </button>
                 <ul class="dropdown-menu">

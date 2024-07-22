@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include("../component/leftBarStream.php") ?>
 
     <main>
-        <h2>Daftar Video</h2>
+        <h1 class="feed-title">Daftar Video</h1>
 
         <div class="px-5 row">
             <?php
@@ -183,9 +183,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     data: formData,
                     contentType: false,
                     processData: false,
-                    success: function() {
-                        //var res = JSON.parse(response);
-                        $('#notification').html('*Berhasil mengupload video.');
+                    success: function(response) {
+                        var res = JSON.parse(response);
+                        $('#notification').html(res.message);
                     },
                     error: function() {
                         $('#notification').html('*Ada kesalahan saat mengunggah file.');
@@ -201,6 +201,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         });
     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+  </script>
 </body>
 
 </html>

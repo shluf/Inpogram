@@ -19,7 +19,8 @@
 
     --main-color: #c2506e;
     --background-color: #333;
-    --text-color: #fff;
+    --text-color: #000;
+    /* --text-color: #fff; */
 }
 
 /* Light Mode explicitly */
@@ -126,6 +127,8 @@ div.app {
     overflow-y: auto;
     height: 100vh;
     scrollbar-width: none;
+    margin-left: 96px;
+    padding-bottom: 56px;
 }
 
 .upload-container {

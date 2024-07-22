@@ -25,16 +25,31 @@
         </li>
       </ul>
     </div>
+
     <div class="dropdown border-top">
+
       <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-list"></i>
       </a>
       <ul class="dropdown-menu text-small shadow">
-        <!-- <li><a class="dropdown-item" href="#">Settings</a></li>
-          <li><a class="dropdown-item" href="#">Profile</a></li>
-          <li>
-            <hr class="dropdown-divider">
-          </li> -->
+
+
+        <li class="dropdown">
+          <a class="dropdown-item tema-dropdown">
+            Tema
+          </a>
+          <span class="tema-dropdown-content" style="position: absolute; left: 100%; top: -8px; display: none;">
+            <div class="rounded mode-selector" style="background-color: white; margin-left: 8px;">
+              <a id="lightMode" class="dropdown-item btn rounded"><i class="bi bi-brightness-high-fill"></i> Light </a>
+              <a id="darkMode" class="dropdown-item btn rounded"><i class="bi bi-moon-stars-fill"></i> Dark </a>
+              <a id="systemMode" class="dropdown-item btn rounded"><i class="bi bi-circle-half"></i> System</a>
+            </div>
+          </span>
+        </li>
+
+        <li>
+          <hr class="dropdown-divider">
+        </li>
         <li>
           <form action="method/logout.php" method="POST">
             <button class="dropdown-item" type="submit" name="logout">Sign out</button>
@@ -42,6 +57,7 @@
         </li>
       </ul>
     </div>
+
   </div>
 </navbar>
 
@@ -73,9 +89,12 @@
       </a>
     </li>
     <li class="nav-item">
-      <a href="notifications.php" class="nav-link">
-        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+      <a href="stream/" class="nav-link">
+        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-camera-reels" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0M1 3a2 2 0 1 0 4 0 2 2 0 0 0-4 0" />
+          <path d="M9 6h.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 7.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 16H2a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm6 8.73V7.27l-3.5 1.555v4.35zM1 8v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1" />
+          <path d="M9 6a3 3 0 1 0 0-6 3 3 0 0 0 0 6M7 3a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
+
         </svg>
       </a>
     </li>
@@ -88,3 +107,5 @@
     </li>
   </ul>
 </nav>
+
+<script src="../js/toggleDarkLightMode.js"></script>
