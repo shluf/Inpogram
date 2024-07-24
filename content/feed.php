@@ -207,7 +207,7 @@ $result = $stmt->get_result();
       }
 
       function sharePost(postId) {
-        const url = `http://localhost/Inpogram/share/post.php?id=${postId}`;
+        const url = `https://inpogram.share.zrok.io/share/post.php?id=${postId}`;
         copyToClipboard(url, postId);
       }
 

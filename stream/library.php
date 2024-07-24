@@ -148,8 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             while ($video = $videos->fetch_assoc()) {
                 echo '<div class="col-md-3 mb-3">';
-                echo '<div class="video-item shadow-sm relative" style="background-image: url(' . htmlspecialchars($video['Thumbnail']) . '); min-height: 300px; overflow: hidden;">';
-                echo '<span style="z-index: 20;position:absolute; top: 0; left: 0; height:100%; width:100%; background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0.9), rgba(255,255,255,0.5));"></span>';
+                echo '<div class="video-item shadow-sm relative" style="background-image: url(' . htmlspecialchars($video['Thumbnail']) . '); background-size: cover; min-height: 300px; overflow: hidden;">';
+                echo '<span style="z-index: 20;position:absolute; top: 0; left: 0; height:100%; width:100%; background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0.9), rgba(255,255,255,0));"></span>';
                 echo '<div style="z-index: 30; position: relative;">';
                 echo '<h3>' . htmlspecialchars($video['Title']) . '</h3>';
                 echo '<p>' . htmlspecialchars($video['DESCRIPTION']) . '</p>';
