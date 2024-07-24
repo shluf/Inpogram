@@ -108,31 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <?php include("../component/leftBarStream.php") ?>
-
+    
     <main>
-        <h1 class="feed-title">Daftar Video</h1>
+        <h1 class="feed-title">Upload Video</h1>
 
-        <div class="px-5 row">
-            <?php
-            include "../database.php";
-            $stmt = $conn->prepare("SELECT * FROM Videos");
-            $stmt->execute();
-            $videos = $stmt->get_result();
-
-            while ($video = $videos->fetch_assoc()) {
-                echo '<div class="col-md-3 mb-3">';
-                echo '<div class="video-item">';
-                echo '<h3>' . htmlspecialchars($video['Title']) . '</h3>';
-                echo '<p>' . htmlspecialchars($video['DESCRIPTION']) . '</p>';
-                echo '<img src="' . htmlspecialchars($video['Thumbnail']) . '" width="140" height="240">';
-                echo '</div>';
-                echo '</div>';
-            }
-            ?>
-        </div>
-        <hr>
-
-        <div class="container mt-4">
+    <div class="container mb-4 p-5 rounded" style="max-width: 600px; background: white;">
         <form id="uploadForm" action="library.php" method="post" enctype="multipart/form-data" class="form-group">
             <div class="mb-3">
                 <label for="fileToUpload" class="form-label">Pilih video untuk diunggah:</label>
@@ -155,6 +135,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="submit" value="Unggah Video" name="submit" class="btn btn-primary">
         </form>
         </div>
+
+
+        <h1 class="feed-title">Daftar Video</h1>
+
+        <div class="px-5 row">
+            <?php
+            include "../database.php";
+            $stmt = $conn->prepare("SELECT * FROM Videos");
+            $stmt->execute();
+            $videos = $stmt->get_result();
+
+            while ($video = $videos->fetch_assoc()) {
+                echo '<div class="col-md-3 mb-3">';
+                echo '<div class="video-item shadow-sm relative" style="background-image: url(' . htmlspecialchars($video['Thumbnail']) . '); min-height: 300px; overflow: hidden;">';
+                echo '<span style="z-index: 20;position:absolute; top: 0; left: 0; height:100%; width:100%; background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0.9), rgba(255,255,255,0.5));"></span>';
+                echo '<div style="z-index: 30; position: relative;">';
+                echo '<h3>' . htmlspecialchars($video['Title']) . '</h3>';
+                echo '<p>' . htmlspecialchars($video['DESCRIPTION']) . '</p>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+        <hr>
+
+
         
     </main>
 

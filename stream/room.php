@@ -177,10 +177,10 @@ if (isset($_GET['id'])) {
         </section>
 
 
-        <aside class="mt-4 col-4">
+        <aside class="mt-4 col-4 relative" style="max-height: 80vh;">
             <div id="comments" class="mb-3"></div>
-            <div class="input-group">
-                <input type="text" id="commentInput" class="form-control" placeholder="Enter your comment">
+            <div class="input-group" style="position: absolute; bottom: 2px;">
+                <input type="text" id="commentInput" class="form-control" placeholder="Komentar">
                 <button class="btn btn-primary" onclick="sendComment()">Send</button>
             </div>
         </aside>

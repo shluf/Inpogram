@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include("../component/leftBarStream.php") ?>
     <main>
         <h1 class="feed-title">Stream</h1>
-        <div class="d-flex justify-content-around">
+        <div class="row">
 
             <?php
 
@@ -62,13 +62,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $rooms = $stmt->get_result();
 
             while ($row = $rooms->fetch_assoc()) {
-                echo '<div class="rounded shadow-sm p-3" style="min-width: 300px; background-color: white;">';
+                echo '<div class="col-md-3">';
+                echo '<div class="rounded shadow-sm p-3 m-3" style="min-width: 300px; height: 200px; background-color: white;">';
                 echo '<h3> ' . htmlspecialchars($row['RoomName'], ENT_QUOTES, 'UTF-8') . '</h3>';
                 echo '<p> ' . htmlspecialchars($row['Descriptions'], ENT_QUOTES, 'UTF-8') . '</p>';
                 if ($row['LiveNow']) {
-                    echo '<p>Sedang Tayang</p>';
+                    echo '<p class="text-secondary" style="font-size: small;">| Sedang Tayang</p>';
                 }
-                echo '<a class="btn" href="room.php?id=' . htmlspecialchars($row['RoomCode'], ENT_QUOTES, 'UTF-8') . '">Join</a>';
+                echo '<a class="btn btn-outline-primary" href="room.php?id=' . htmlspecialchars($row['RoomCode'], ENT_QUOTES, 'UTF-8') . '">Join</a>';
+                echo '</div>';
                 echo '</div>';
             }
 
@@ -77,10 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <hr>
 
-        <div>
+        <div class="container mb-4 p-5 rounded" style="max-width: 600px; background: white;">
+        <h2 class="feed-title">Buat Room</h2>
             <form action="<?php echo $current_page; ?>" method="post" enctype="multipart/form-data" class="p-3">
                 <div class="mb-3">
-                    <label for="roomName" class="form-label">Nama Ruangan:</label>
+                    <label for="roomName" class="form-label">Nama Room:</label>
                     <input type="text" id="roomName" name="roomName" class="form-control" required>
                 </div>
 
