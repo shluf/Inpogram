@@ -19,12 +19,12 @@
                   <div class="modal-header">
                     <h1 class="modal-title fs-5" id="commentsModalLabel">Komentar</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    
                   </div>
 
 
-
                   <section class="comments overflow-y-auto">
-                    <div id="post-desc">
+                    <div id="post-desc" class="d-flex align-items-center mt-2 mb-3">
 
                     </div>
                     <div class="container pb-5" id="commentContainer">

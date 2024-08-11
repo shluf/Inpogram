@@ -140,7 +140,7 @@ $result = $stmt->get_result();
                           }
                           ?>
                         </div>
-                        <div class="btn" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(<?= $row['PostID']; ?>, '<?= $row['Image']; ?>', '<?= $row['Username']; ?>', '<?= $row['DESCRIPTION']; ?>')">
+                        <div class="btn" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(<?= $row['PostID']; ?>, '<?= $row['Image']; ?>','<?= $row['PhotoProfile'] ?>', '<?= $row['Username']; ?>', '<?= $row['DESCRIPTION']; ?>')">
                           <span><?php echo $row['CommentsCount']; ?></span>
                           <i class="bi bi-chat-left-text"></i>
                         </div>

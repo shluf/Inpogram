@@ -8,8 +8,12 @@ include "method/unfollow.php";
 
 $username = $_SESSION['username'];
 
-$sql = "SELECT * FROM Posts";
-$result = $conn->query($sql);
+$sql = "SELECT Posts.*, Users.Username, Users.PhotoProfile 
+        FROM Posts
+        JOIN Users ON Posts.Username = Users.Username";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $posts = [];
 
@@ -46,7 +50,7 @@ if (!empty($searchQuery)) {
     }
 
 
-    $querySearch = "SELECT Posts.*, Users.Username
+    $querySearch = "SELECT Posts.*, Users.Username, Users.PhotoProfile
                     FROM Posts 
                     JOIN Users ON Posts.Username = Users.Username 
                     WHERE Users.Username LIKE ? OR Users.Name LIKE ? OR Posts.DESCRIPTION LIKE ?";
@@ -166,7 +170,7 @@ if ($postsUser[0] != "empty") {
 
                 switch ($count) {
                     case 1:
-                        echo '<div class="col-sm-12 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                        echo '<div class="col-sm-12 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                         <div style="position: relative;">
                             <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                             <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
@@ -175,7 +179,7 @@ if ($postsUser[0] != "empty") {
                     
                         break;
                     case 2:
-                        echo '<div class="col-sm-6 col-md-4 row-1" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                        echo '<div class="col-sm-6 col-md-4 row-1" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                         <div style="position: relative;">
                             <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                             <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
@@ -183,7 +187,7 @@ if ($postsUser[0] != "empty") {
                     </div>';
                         break;
                     case 3:
-                        echo '<div class="col-sm-6 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                        echo '<div class="col-sm-6 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                         <div style="position: relative;">
                             <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                             <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
@@ -191,7 +195,7 @@ if ($postsUser[0] != "empty") {
                     </div>';
                         break;
                     case 4:
-                        echo '<div class="col-sm-12 col-md-8" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                        echo '<div class="col-sm-12 col-md-8" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                         <div style="position: relative;">
                             <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                             <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
@@ -200,14 +204,14 @@ if ($postsUser[0] != "empty") {
                         break;
                     case 5:
                         echo '<div class="col-sm-12 col-md-4 ">
-                        <div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                        <div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                             <img class="col-sm-6 w-100 shadow-1-strong rounded mb-1" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
                             <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                         </div>';
                         break;
                     case 6:
                         $count = 0;
-                        echo '<div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                        echo '<div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                             <img class="col-sm-6 w-100 shadow-1-strong rounded" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
                             <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                         </div>
@@ -224,7 +228,7 @@ if ($postsUser[0] != "empty") {
 
                     switch ($countSearch) {
                         case 1:
-                            echo '<div class="col-sm-12 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                            echo '<div class="col-sm-12 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                             <div style="position: relative;">
                                 <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
@@ -233,7 +237,7 @@ if ($postsUser[0] != "empty") {
                         
                             break;
                         case 2:
-                            echo '<div class="col-sm-6 col-md-4 row-1" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                            echo '<div class="col-sm-6 col-md-4 row-1" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                             <div style="position: relative;">
                                 <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
@@ -241,7 +245,7 @@ if ($postsUser[0] != "empty") {
                         </div>';
                             break;
                         case 3:
-                            echo '<div class="col-sm-6 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                            echo '<div class="col-sm-6 col-md-4" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                             <div style="position: relative;">
                                 <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
@@ -249,7 +253,7 @@ if ($postsUser[0] != "empty") {
                         </div>';
                             break;
                         case 4:
-                            echo '<div class="col-sm-12 col-md-8" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                            echo '<div class="col-sm-12 col-md-8" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                             <div style="position: relative;">
                                 <img class="w-100" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '" />
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
@@ -258,14 +262,14 @@ if ($postsUser[0] != "empty") {
                             break;
                         case 5:
                             echo '<div class="col-sm-12 col-md-4 ">
-                            <div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                            <div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                                 <img class="col-sm-6 w-100 shadow-1-strong rounded mb-1" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>';
                             break;
                         case 6:
                             $countSearch = 0;
-                            echo '<div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                            echo '<div style="position: relative;" data-bs-toggle="modal" data-bs-target="#commentsModal" onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                                 <img class="col-sm-6 w-100 shadow-1-strong rounded" style="border-radius: 5px;" src="' . htmlspecialchars($post['Image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '">
                                 <p class="rounded p-2 mt-2 mb-0 text-center" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5);">@' . htmlspecialchars($post['Username'], ENT_QUOTES) . '</p>
                             </div>

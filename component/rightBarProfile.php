@@ -191,7 +191,9 @@ $username = $_SESSION['username'];
 
             </section>
             <section class="distance__section distance__running">
-                <p>22 </p>
+                <p> <?php 
+                echo $videoCount = $conn->query("SELECT COUNT(*) FROM videos WHERE uploader = '$username'")->fetch_row()[0];
+                ?> </p>
                 <h2>Videos</h2>
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19.5617 7C19.7904 5.69523 18.7863 4.5 17.4617 4.5H6.53788C5.21323 4.5 4.20922 5.69523 4.43784 7" stroke="#1C274C" stroke-width="1.5" />

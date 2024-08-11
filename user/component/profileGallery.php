@@ -18,7 +18,7 @@ if ($result->num_rows > 0) {
 }
 ?>
 
-<?php include "component/modalPost.php"; ?>
+<?php include "../component/modalPost.php"; ?>
 
 <div class="container">
     <div class="tz-gallery">
@@ -39,7 +39,7 @@ if ($result->num_rows > 0) {
                 echo '<button class="delete-post position-absolute btn btn-danger" data-postid="' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '" style="z-index: 25; display: none; top: 10px; right: 10px;"><i class="bi bi-trash-fill"></i></button>
                         <img data-bs-toggle="modal" data-bs-target="#commentsModal" 
                             style="width: 100%; border-radius: 5px;" 
-                            src="' . $post['Image'] . '" alt="' . $post['DESCRIPTION'] . '" 
+                            src="../' . $post['Image'] . '" alt="' . $post['DESCRIPTION'] . '" 
                             onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                     </div>';
             }
@@ -50,7 +50,7 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 
-    <script src="js/loadComments.js"></script>
+    <script src="../js/loadComments.js"></script>
     <script>
         document.querySelectorAll('.delete-post').forEach(button => {
             button.addEventListener('click', function(e) {

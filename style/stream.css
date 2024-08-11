@@ -10,6 +10,14 @@ main {
   padding: 15px;
 }
 
+@media (max-width: 768px) {
+  main {
+      margin-left: 0;
+      padding-left: 20px;
+      padding-right: 20px;
+  }
+}
+
 .movie_card{
     position: relative;
     display: block;

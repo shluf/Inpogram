@@ -9,6 +9,13 @@ $login_in_user = $_SESSION['username'];
 
 include "../database.php";
 
+$stmt = $conn->prepare("SELECT * FROM Users WHERE Username = ?");
+$stmt->bind_param("s", $login_in_user);
+$stmt->execute();
+$result = $stmt->get_result();
+$user_data = $result->fetch_assoc();
+
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
@@ -121,46 +128,64 @@ if (isset($_GET['id'])) {
     <main>
         <h1 class="feed-title"><?php echo htmlspecialchars($room['RoomName']); ?></h1>
 
+        <div>
+            <!-- <h2>Live Now</h2> -->
+        </div>
         <div class="row">
-        <section class="col-8">
-        <?php
+            <section >
+                <?php
 
-        $stmt = $conn->prepare("SELECT * FROM Videos");
-        $stmt->execute();
-        $videos = $stmt->get_result();
-        // $videos = $videos->fetch_assoc();
-        $roomVideo = null;
-        foreach ($videos as $video) {
-            if ($video['VideoID'] == $room['VideoID']) {
-                $roomVideo = $video;
-            }
-        }
+                $stmt = $conn->prepare("SELECT * FROM Videos");
+                $stmt->execute();
+                $videos = $stmt->get_result();
+                // $videos = $videos->fetch_assoc();
+                $roomVideo = null;
+                foreach ($videos as $video) {
+                    if ($video['VideoID'] == $room['VideoID']) {
+                        $roomVideo = $video;
+                    }
+                }
 
 
-        if ($isAdmin) {
-            echo '<div class="mb-3">';
-            echo '<label for="videoPath" class="form-label">Pilih video:</label>';
-            echo '<select name="videoPath" id="videoPath" class="form-select" onchange="changeVideo(this.value)">';
-            foreach ($videos as $video) {
-                $selected = ($video['VideoID'] == $room['VideoID']) ? 'selected' : '';
-                echo '<option value="' . htmlspecialchars($video['VideoID']) . '" ' . $selected . '>' . htmlspecialchars($video['Title']) . '</option>';
-            }
-            echo '</select>';
-            echo '</div>';
-        }
-        
-        ?>
+                if ($isAdmin) {
+                    echo '<div class="mb-3">';
+                    echo '<label for="videoPath" class="form-label">Pilih video:</label>';
+                    echo '<select name="videoPath" id="videoPath" class="form-select" onchange="changeVideo(this.value)">';
+                    foreach ($videos as $video) {
+                        $selected = ($video['VideoID'] == $room['VideoID']) ? 'selected' : '';
+                        echo '<option value="' . htmlspecialchars($video['VideoID']) . '" ' . $selected . '>' . htmlspecialchars($video['Title']) . '</option>';
+                    }
+                    echo '</select>';
+                    echo '</div>';
+                }
 
-        <video id="videoPlayer" class="w-100" src="<?php echo htmlspecialchars($roomVideo['VideoPath']); ?>"></video>
+                ?>
 
-        <div id="adminControls" class="mt-3">
-            <button class="btn btn-primary" onclick="playVideo()">Play</button>
-            <button class="btn btn-secondary" onclick="pauseVideo()">Pause</button>
-            <input type="range" id="timeRange" class="form-range mt-2" min="0" max="100" value="0">
-            <div class="d-flex justify-content-between mt-2">
-                <span id="currentTime">0:00</span>
-                <span id="duration">0:00</span>
-            </div>
+                <div class="d-flex row">
+
+                    <div class="col-8">
+                        <video id="videoPlayer" class="w-100" src="<?php echo htmlspecialchars($roomVideo['VideoPath']); ?>"></video>
+
+                        <div id="adminControls" class="mt-3">
+                            <button class="btn btn-primary" onclick="playVideo()">Play</button>
+                            <button class="btn btn-secondary" onclick="pauseVideo()">Pause</button>
+                            <input type="range" id="timeRange" class="form-range mt-2" min="0" max="100" value="0">
+                            <div class="d-flex justify-content-between mt-2">
+                                <span id="currentTime">0:00</span>
+                                <span id="duration">0:00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <aside class="live-comments col-4 relative" style="max-height: 80vh;">
+                        <div id="user-count" class="rounded text-center py-2 mb-2" style="background-color: #c2506e; color:aliceblue;"></div>
+                        <div id="comments" class="mb-3" style="overflow-y: scroll; height: 100%;"></div>
+                        <div class="input-group" style="position: absolute; bottom: 2px;">
+                            <input type="text" id="commentInput" class="form-control" placeholder="Komentar" onkeypress="if(event.key === 'Enter') { event.preventDefault(); sendComment(); }">
+                            <button class="btn btn-primary" onclick="sendComment()">Send</button>
+                        </div>
+                    </aside>
+                </div>
         </div>
 
         <div class="video-item mt-4">
@@ -176,20 +201,14 @@ if (isset($_GET['id'])) {
         </div>
         </section>
 
-
-        <aside class="mt-4 col-4 relative" style="max-height: 80vh;">
-            <div id="comments" class="mb-3"></div>
-            <div class="input-group" style="position: absolute; bottom: 2px;">
-                <input type="text" id="commentInput" class="form-control" placeholder="Komentar">
-                <button class="btn btn-primary" onclick="sendComment()">Send</button>
-            </div>
-        </aside>
-    </div>
+        </div>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
     <script>
-        const socket = io('https://socketinpogram.share.zrok.io'
+        const socket = io(
+            // 'http://localhost:3000'
+            'https://socketinpogram.share.zrok.io'
             // , {
             //     withCredentials: true
             // }
@@ -202,12 +221,40 @@ if (isset($_GET['id'])) {
         const currentTimeSpan = document.getElementById('currentTime');
         const durationSpan = document.getElementById('duration');
 
+        const username = "<?= $user_data['Username'] ?>";
+        const userImg = "<?= $user_data['PhotoProfile'] ?>";
+
         let isAdmin = <?php echo $isAdmin ? 'true' : 'false'; ?>;
         let isSeekingByAdmin = false;
 
         socket.on('connect', () => {
-            socket.emit('join_room', <?php echo $room_id; ?>);
+            socket.emit('join_room', <?php echo $room_id; ?>, username);
         });
+
+        socket.on('user_joined', (username) => {
+            const statusElement = document.createElement('div');
+            statusElement.className = ' d-flex mb-2 align-items-center';
+            statusElement.style.backgroundColor = 'rgb(255, 219, 219)';
+            statusElement.style.padding = '5px';
+            statusElement.style.borderRadius = '5px';
+            statusElement.innerHTML = `<p class="mb-0" style="font-size: 13px;"><b style="margin-right: 5px;">@${username}</b> bergabung</p>`;
+            comments.appendChild(statusElement);
+        });
+
+        socket.on('user_left', (username) => {
+            const statusElement = document.createElement('div');
+            statusElement.className = ' d-flex mb-2 align-items-center';
+            statusElement.style.backgroundColor = 'rgb(255, 175, 196)';
+            statusElement.style.padding = '5px';
+            statusElement.style.borderRadius = '5px';
+            statusElement.innerHTML = `<p class="mb-0" style="font-size: 13px;"><b style="margin-right: 5px;">@${username}</b> keluar</p>`;
+            comments.appendChild(statusElement);
+        });
+
+        socket.on('update_user_count', (userCount) => {
+            const userCountElement = document.getElementById('user-count');
+            userCountElement.innerHTML = `<p class="m-0"> ${userCount} </p>`
+        })
 
         socket.on('update_time', (time) => {
             if (!isAdmin && !isSeekingByAdmin) {
@@ -225,16 +272,23 @@ if (isset($_GET['id'])) {
         });
 
         socket.on('new_comment', (comment) => {
-            const commentElement = document.createElement('p');
-            commentElement.textContent = comment.message;
+            const commentElement = document.createElement('div');
+            commentElement.className = ' d-flex mb-2 align-items-center';
+
+            adminBadge = comment.isAdmin ? '<div style="font-size: 10px; background-color: #d385de; color: white; padding: 4px 8px; margin-right: 12px; text-align: center; border-radius: 5px;"> admin </div>' : '';
+            commentElement.innerHTML = `<img class="rounded-circle shadow-1-strong me-3" src="../${comment.userProfile}" alt="avatar" width="24" height="24" /> <p class="mb-0" style="font-size: 13px;"><b style="margin-right: 5px;">@${comment.username}</b> ${adminBadge} ${comment.message}</p>`;
             comments.appendChild(commentElement);
+            comments.scrollTop = comments.scrollHeight;
         });
 
         function sendComment() {
             const message = commentInput.value;
             socket.emit('comment', {
                 room_id: <?php echo $room_id; ?>,
-                message: message
+                message: message,
+                username: username,
+                userProfile: userImg,
+                isAdmin: isAdmin
             });
             commentInput.value = '';
         }
@@ -335,7 +389,7 @@ if (isset($_GET['id'])) {
 
             }
         } else {
-            videoPlayer.controls = false;
+            videoPlayer.controls = true;
         }
 
 
@@ -366,9 +420,9 @@ if (isset($_GET['id'])) {
         }
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-  </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

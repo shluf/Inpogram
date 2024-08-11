@@ -4,7 +4,10 @@ include "database.php";
 
 $username = $_SESSION['username'];
 
-$sql = "SELECT * FROM Posts WHERE Username = ?";
+$sql = "SELECT Posts.*, Users.Username, Users.PhotoProfile 
+        FROM Posts
+        JOIN Users ON Posts.Username = Users.Username
+        WHERE Posts.Username = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $username);
 $stmt->execute();
@@ -49,7 +52,7 @@ if ($result->num_rows > 0) {
                         <img data-bs-toggle="modal" data-bs-target="#commentsModal" 
                             style="width: 100%; border-radius: 5px;" 
                             src="' . $post['Image'] . '" alt="' . $post['DESCRIPTION'] . '" 
-                            onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
+                            onclick="loadComments(\'' . htmlspecialchars($post["PostID"], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Image'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['PhotoProfile'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['Username'], ENT_QUOTES) . '\', \'' . htmlspecialchars($post['DESCRIPTION'], ENT_QUOTES) . '\')">
                     </div>';
             }
 

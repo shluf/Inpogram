@@ -1,6 +1,6 @@
 const lightModeButton = document.getElementById('lightMode');
 const darkModeButton = document.getElementById('darkMode');
-const systemModeButton = document.getElementById('systemMode');
+// const systemModeButton = document.getElementById('systemMode');
 const rootElement = document.documentElement;
 
 // Function to apply the theme
@@ -24,10 +24,10 @@ darkModeButton.addEventListener('click', () => {
     applyTheme('dark');
 });
 
-systemModeButton.addEventListener('click', () => {
-    localStorage.removeItem('theme');
-    applyTheme(systemPrefersDark() ? 'dark' : 'light');
-});
+// systemModeButton.addEventListener('click', () => {
+//     localStorage.removeItem('theme');
+//     applyTheme(systemPrefersDark() ? 'dark' : 'light');
+// });
 
 // Function to check system preference
 function systemPrefersDark() {

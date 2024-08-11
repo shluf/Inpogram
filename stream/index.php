@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             while ($row = $rooms->fetch_assoc()) {
                 echo '<div class="col-md-3">';
-                echo '<div class="rounded shadow-sm p-3 m-3" style="min-width: 300px; height: 200px; background-color: white;">';
+                echo '<div class="rounded shadow-sm p-3 m-3" style="width: 100%; height: 200px; background-color: white;">';
                 echo '<h3> ' . htmlspecialchars($row['RoomName'], ENT_QUOTES, 'UTF-8') . '</h3>';
                 echo '<p> ' . htmlspecialchars($row['Descriptions'], ENT_QUOTES, 'UTF-8') . '</p>';
                 if ($row['LiveNow']) {

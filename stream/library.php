@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form id="uploadForm" action="library.php" method="post" enctype="multipart/form-data" class="form-group">
             <div class="mb-3">
                 <label for="fileToUpload" class="form-label">Pilih video untuk diunggah:</label>
-                <input type="file" name="fileToUpload" id="fileToUpload" class="form-control">
+                <input type="file" name="fileToUpload" id="fileToUpload" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="title" class="form-label">Judul:</label>

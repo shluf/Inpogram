@@ -42,7 +42,7 @@
             <div class="rounded mode-selector" style="background-color: white; margin-left: 8px;">
               <a id="lightMode" class="dropdown-item btn rounded"><i class="bi bi-brightness-high-fill"></i> Light </a>
               <a id="darkMode" class="dropdown-item btn rounded"><i class="bi bi-moon-stars-fill"></i> Dark </a>
-              <a id="systemMode" class="dropdown-item btn rounded"><i class="bi bi-circle-half"></i> System</a>
+              <!-- <a id="systemMode" class="dropdown-item btn rounded"><i class="bi bi-circle-half"></i> System</a> -->
             </div>
           </span>
         </li>

@@ -1,8 +1,8 @@
-function loadComments(postId, imageUrl, postUsername, description) {
+function loadComments(postId, imageUrl, imageProfile, postUsername, description) {
   document.getElementById('postId').value = postId;
   document.getElementById('modalImageBackground').src = imageUrl;
   document.getElementById('modalImage').src = imageUrl;
-  document.getElementById('post-desc').innerHTML = `<p><b style="margin-right: 5px;">@${postUsername}</b>${description}</p>`;
+  document.getElementById('post-desc').innerHTML = `  <img class="rounded-circle shadow-1-strong me-3" src="${imageProfile}" alt="avatar" width="32" height="32" /> <p class="mb-0"><b style="margin-right: 5px;">@${postUsername}</b>${description}</p>`;
   
   const commentContainer = document.getElementById('commentContainer');
   commentContainer.innerHTML = '';
