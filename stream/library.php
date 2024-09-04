@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <h1 class="feed-title">Daftar Video</h1>
 
-        <div class="px-5 row">
+        <div class="md-px-5 row">
             <?php
             include "../database.php";
             $stmt = $conn->prepare("SELECT * FROM Videos");

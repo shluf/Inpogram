@@ -1,5 +1,7 @@
 <?php
 session_start();
+include "../method/check_session.php";
+
 if (!isset($_SESSION['username'])) {
   header("Location: ../index.php");
   exit();
@@ -76,7 +78,7 @@ if (isset($_GET['username'])) {
 
 <body>
 
-  <?php include("../component/leftBar.php") ?>
+  <?php include("../component/leftBarProfile.php") ?>
   <div class="app flex-md-row-reverse d-flex flex-column">
     <?php include("component/rightBarProfile.php") ?>
   <main class="my-gallery-container">

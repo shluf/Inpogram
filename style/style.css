@@ -246,6 +246,11 @@ i.status-icon {
     font-size: 0.9rem;
 }
 
+.content-header p.username a {
+    color: #000;
+    text-decoration: none;
+}
+
 .content-header p.time {
     font-size: 0.7rem;
 }

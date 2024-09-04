@@ -96,7 +96,7 @@ $result = $stmt->get_result();
         <div class="content-header gap-3">
           <img src="<?= $_SESSION['profilepict'] ?>" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
 
-          <p class="username">@<?php echo $_SESSION['username']; ?></p>
+          <p class="username"><a href="http://localhost/Inpogram/user/?username=<?= $row['Username']; ?>">@<?php echo $_SESSION['username']; ?></a></p>
 
         </div>
         <div class="content-body">
@@ -118,7 +118,7 @@ $result = $stmt->get_result();
             <div class="content-header">
               <img src="<?= $row['PhotoProfile'] ?>" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover; margin-right: 10px;">
               <div class="username-time">
-                <p class="username">@<?php echo $row['Username']; ?></p>
+                <p class="username"><a href="http://localhost/Inpogram/user/?username=<?= $row['Username']; ?>">@<?php echo $row['Username']; ?></a></p>
                 <p class="time"><?php echo date("F j, Y, g:i a", strtotime($row['DATETIME'])); ?></p>
               </div>
             </div>

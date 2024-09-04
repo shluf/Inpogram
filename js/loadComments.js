@@ -49,7 +49,9 @@ function renderComment(comment, container, depth) {
       <div class="d-flex align-items-center flex-start mb-4">
           <img class="rounded-circle shadow-1-strong me-3" src="${comment.avatar}" alt="avatar" width="32" height="32" />
           <div>
-              <p class="mb-0"><b style="margin-right: 5px;">@${comment.username}</b> ${comment.text}</p>
+              <p class="mb-0"><a style="color: #000; text-decoration: none;" href="http://localhost/Inpogram/user/?username=${comment.username}">
+                <b style="margin-right: 5px;">@${comment.username}</b></a>${comment.text}
+              </p>
               <div class="d-flex justify-content-between align-items-center mt-1">
                   <div class="comment-item d-flex align-items-center gap-2" data-comment-id="${comment.commentid}" data-username="${comment.username}">
                       <p style="font-size: 0.7rem; margin-bottom: 0;">${comment.datetime}</p>
